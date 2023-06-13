@@ -9,9 +9,7 @@ import Foundation
 
 extension ToDoItem {
     static func parse(json: Any) -> ToDoItem? {
-        guard let jsonDictionary = json as? [String: Any] else {
-            return nil
-        }
+        guard let jsonDictionary = json as? [String: Any] else { return nil }
         return ToDoItem(with: jsonDictionary)
     }
     

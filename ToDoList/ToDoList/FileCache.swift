@@ -7,25 +7,120 @@
 
 import Foundation
 
-class FileCash {
-    private(set) var tasks: Set<ToDoItem> = []
+enum FileCacheError: Error {
+    case failureDataToJson
+    case failureParseTodoItem
+    case failureCreatingDirectory
+    case failureSaveTodoItem
+    case alreadyExists
+    case doesNotExist
+}
+
+final class FileCache {
     
-    func addNewTask(task: ToDoItem){
-        for item in tasks {
-            if item.id == task.id {
-                return
+    private(set) var tasks = [String:ToDoItem]()
+    private var fileManager = FileManager.default
+    
+    func add(task: ToDoItem) throws {
+        if tasks[task.id] == nil {
+            tasks[task.id] = task
+        } else {
+            throw FileCacheError.alreadyExists
+        }
+    }
+    
+    func delete(id: String) throws {
+        if tasks[id] != nil {
+            tasks[id] = nil
+        } else {
+            throw FileCacheError.doesNotExist
+        }
+    }
+    
+    // Save
+    func save(to directory: String) throws {
+        let urls = fileManager.urls(
+            for: .cachesDirectory,
+            in: .userDomainMask
+        )
+        guard let cachesDirectoryUrl = urls.first else {
+            throw FileCacheError.doesNotExist
+        }
+        
+        let directoryUrl = cachesDirectoryUrl.appendingPathComponent("\(directory)")
+        
+        if !fileManager.fileExists(atPath: directoryUrl.path) {
+            do {
+                try fileManager.createDirectory(
+                    at: directoryUrl,
+                    withIntermediateDirectories: true,
+                    attributes: nil
+                )
+            } catch {
+                throw FileCacheError.failureCreatingDirectory
             }
         }
         
-        tasks.insert(task)
+        for toDoItem in tasks.values {
+            do {
+                guard let data = try? JSONSerialization.data(
+                    withJSONObject: toDoItem.json,
+                    options: .fragmentsAllowed
+                ) else {
+                    throw FileCacheError.failureDataToJson
+                }
+                
+                let fileUrl = directoryUrl.appendingPathComponent("\(toDoItem.id).json")
+                
+                guard (try? data.write(to: fileUrl)) != nil else {
+                    throw FileCacheError.failureSaveTodoItem
+                }
+            } catch FileCacheError.failureSaveTodoItem {
+                throw FileCacheError.failureSaveTodoItem
+            }
+        }
     }
     
-    func deleteTask(id: String){
-        for task in tasks {
-            if task.id == id {
-                tasks.remove(task)
-                break
+    //Load
+    
+    func load(from directory: String) throws {
+        
+        tasks.removeAll()
+        
+        let urls = fileManager.urls(
+            for: .cachesDirectory,
+            in: .userDomainMask
+        )
+        guard let cachesDirectoryUrl = urls.first else {
+            throw FileCacheError.doesNotExist
+        }
+        
+        let directoryUrl = cachesDirectoryUrl.appendingPathComponent("\(directory)")
+        
+        guard fileManager.fileExists(atPath: directoryUrl.path),
+              let toDoItemsId = try? fileManager.contentsOfDirectory(atPath: directoryUrl.path) else {
+                  throw FileCacheError.doesNotExist
+              }
+
+        
+        for id in toDoItemsId {
+            let fileUrl = directoryUrl.appendingPathComponent("\(id)")
+            guard let data = try? Data(contentsOf: fileUrl) else {
+                throw FileCacheError.doesNotExist
             }
+            
+            guard let json = try? JSONSerialization.jsonObject(
+                with: data,
+                options: .fragmentsAllowed
+            ) else {
+                throw FileCacheError.failureDataToJson
+            }
+            
+            guard let toDoItem = ToDoItem.parse(json: json) else {
+                throw FileCacheError.failureParseTodoItem
+            }
+            
+            tasks[toDoItem.id] = toDoItem
         }
     }
 }
