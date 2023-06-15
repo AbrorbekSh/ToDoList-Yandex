@@ -36,9 +36,13 @@ final class FileCache {
             throw FileCacheError.doesNotExist
         }
     }
+}
+
+//MARK: - FileCache for JSON
+
+extension FileCache {
     
-    // Save
-    func save(to directory: String) throws {
+    func saveJSON(to directory: String) throws {
         let urls = fileManager.urls(
             for: .cachesDirectory,
             in: .userDomainMask
@@ -81,9 +85,7 @@ final class FileCache {
         }
     }
     
-    //Load
-    
-    func load(from directory: String) throws {
+    func loadJSON(from directory: String) throws {
         
         tasks.removeAll()
         
@@ -104,7 +106,7 @@ final class FileCache {
 
         
         for id in toDoItemsId {
-            let fileUrl = directoryUrl.appendingPathComponent("\(id)")
+            let fileUrl = directoryUrl.appendingPathComponent("\(id).json")
             guard let data = try? Data(contentsOf: fileUrl) else {
                 throw FileCacheError.doesNotExist
             }
@@ -117,6 +119,87 @@ final class FileCache {
             }
             
             guard let toDoItem = ToDoItem.parse(json: json) else {
+                throw FileCacheError.failureParseTodoItem
+            }
+            
+            tasks[toDoItem.id] = toDoItem
+        }
+    }
+}
+
+//MARK: - FileCache for CSV
+
+extension FileCache {
+
+    func saveCSV(to directory: String) throws {
+        let urls = fileManager.urls(
+            for: .cachesDirectory,
+            in: .userDomainMask
+        )
+        guard let cachesDirectoryUrl = urls.first else {
+            throw FileCacheError.doesNotExist
+        }
+        
+        let directoryUrl = cachesDirectoryUrl.appendingPathComponent("\(directory)")
+        
+        if !fileManager.fileExists(atPath: directoryUrl.path) {
+            do {
+                try fileManager.createDirectory(
+                    at: directoryUrl,
+                    withIntermediateDirectories: true,
+                    attributes: nil
+                )
+            } catch {
+                throw FileCacheError.failureCreatingDirectory
+            }
+        }
+        
+        for toDoItem in tasks.values {
+            
+            let csvString = toDoItem.csv
+            
+            let fileUrl = directoryUrl.appendingPathComponent("\(toDoItem.id).csv")
+            
+            do {
+                try csvString.write(to: fileUrl, atomically: true, encoding: .utf8)
+            } catch {
+                throw FileCacheError.failureSaveTodoItem
+            }
+        }
+    }
+    
+    func loadCSV(from directory: String) throws {
+        
+        tasks.removeAll()
+        
+        let urls = fileManager.urls(
+            for: .cachesDirectory,
+            in: .userDomainMask
+        )
+        guard let cachesDirectoryUrl = urls.first else {
+            throw FileCacheError.doesNotExist
+        }
+        
+        let directoryUrl = cachesDirectoryUrl.appendingPathComponent("\(directory)")
+        
+        guard fileManager.fileExists(atPath: directoryUrl.path),
+              let toDoItemsId = try? fileManager.contentsOfDirectory(atPath: directoryUrl.path) else {
+                  throw FileCacheError.doesNotExist
+              }
+
+        
+        for id in toDoItemsId {
+            let fileUrl = directoryUrl.appendingPathComponent("\(id).csv")
+            
+            var csvString = ""
+            
+            do {
+                csvString = try String(contentsOf: fileUrl, encoding: .utf8)
+            } catch {
+                throw FileCacheError.doesNotExist
+            }
+            
+            guard let toDoItem = ToDoItem.parse(csv: csvString) else {
                 throw FileCacheError.failureParseTodoItem
             }
             
