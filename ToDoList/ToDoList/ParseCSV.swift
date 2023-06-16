@@ -10,8 +10,8 @@ import Foundation
 extension ToDoItem {
     static func parse(csv: String) -> ToDoItem? {
         let parsedCSV: [String] = csv.components(
-            separatedBy: "\n"
-        ).map{ $0.components(separatedBy: ",")[0] }
+            separatedBy: ","
+        )
         
         return ToDoItem(with: parsedCSV)
     }
@@ -44,21 +44,29 @@ extension ToDoItem {
         }
         
         let id = parsedCSV[0]
+        
         let text = parsedCSV[1]
+        
         guard let createdAt = (Double(parsedCSV[2]).flatMap {
             Date(timeIntervalSince1970: TimeInterval($0))
         }) else { return nil }
         
         var index = 3 // to keep the order
-        var priority: Priority = Priority.basic
         
-        if parsedCSV.count > index {
-            if parsedCSV[index] == "low" {
-                priority = Priority.low
-            } else if parsedCSV[index] == "high" {
-                priority = Priority.high
-            }
+        var priority: Priority
+        
+        switch parsedCSV[index] {
+            
+        case "low":
+            priority = .low
             index += 1
+            
+        case "high":
+            priority = .high
+            index += 1
+            
+        default:
+            priority = .basic
         }
         
         let deadline = (Double(parsedCSV[index]).flatMap {

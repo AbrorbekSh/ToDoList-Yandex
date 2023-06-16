@@ -7,12 +7,12 @@
 
 import Foundation
 
-struct ToDoItem {
+public struct ToDoItem: Equatable {
     var id = UUID().uuidString
     var text: String
     var priority: Priority
     var deadline: Date?
-    var isCompleted: Bool = false
+    var isCompleted: Bool
     var createdAt: Date
     var editedAt: Date?
     
@@ -20,7 +20,7 @@ struct ToDoItem {
          text: String,
          priority: Priority,
          deadline: Date? = nil,
-         isCompleted: Bool,
+         isCompleted: Bool = false,
          createdAt: Date,
          editedAt: Date? = nil)
     {
@@ -31,6 +31,16 @@ struct ToDoItem {
         self.isCompleted = isCompleted
         self.createdAt = createdAt
         self.editedAt = editedAt
+    }
+    
+    public static func ==(lhs: ToDoItem, rhs: ToDoItem) -> Bool {
+        return  lhs.id == rhs.id &&
+                lhs.text == rhs.text &&
+                lhs.priority == rhs.priority &&
+                lhs.isCompleted == rhs.isCompleted &&
+                lhs.deadline?.timeIntervalSince1970 == rhs.deadline?.timeIntervalSince1970 &&
+                lhs.createdAt.timeIntervalSince1970 == rhs.createdAt.timeIntervalSince1970 &&
+                lhs.editedAt?.timeIntervalSince1970 == rhs.editedAt?.timeIntervalSince1970
     }
 }
 

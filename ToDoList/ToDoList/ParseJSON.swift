@@ -51,7 +51,7 @@ extension ToDoItem {
         let isCompleted = jsonDictionary["isCompleted"] as? Bool ?? false
         let priority = (jsonDictionary["priority"] as? String).flatMap(Priority.init) ?? .basic
         
-        let editedAt = (jsonDictionary["changedAt"] as? Double).flatMap {
+        let editedAt = (jsonDictionary["editedAt"] as? Double).flatMap {
             Date(timeIntervalSince1970: TimeInterval($0))
         }
         let deadline = (jsonDictionary["deadline"] as? Double).flatMap {
