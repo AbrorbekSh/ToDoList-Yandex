@@ -8,13 +8,13 @@
 import Foundation
 
 public struct ToDoItem: Equatable {
-    var id = UUID().uuidString
-    var text: String
-    var priority: Priority
-    var deadline: Date?
-    var isCompleted: Bool
-    var createdAt: Date
-    var editedAt: Date?
+    let id: String
+    let text: String
+    let priority: Priority
+    let deadline: Date?
+    let isCompleted: Bool
+    let createdAt: Date
+    let editedAt: Date?
     
     init(id: String = UUID().uuidString,
          text: String,
