@@ -21,20 +21,16 @@ final class FileCache {
     private(set) var tasks = [String:ToDoItem]()
     private var fileManager = FileManager.default
     
-    func add(task: ToDoItem) throws {
-        if tasks[task.id] == nil {
-            tasks[task.id] = task
-        } else {
-            throw FileCacheError.alreadyExists
-        }
+    func add(task: ToDoItem) -> ToDoItem? {
+        let prevItem = tasks[task.id]
+        tasks[task.id] = task
+        return prevItem
     }
     
-    func delete(id: String) throws {
-        if tasks[id] != nil {
-            tasks[id] = nil
-        } else {
-            throw FileCacheError.doesNotExist
-        }
+    func delete(id: String) -> ToDoItem? {
+        let prevItem = tasks[id]
+        tasks[id] = nil
+        return prevItem
     }
 }
 
@@ -51,7 +47,7 @@ extension FileCache {
             throw FileCacheError.doesNotExist
         }
         
-        let directoryUrl = cachesDirectoryUrl.appendingPathComponent("\(directory)")
+        let directoryUrl = cachesDirectoryUrl.appendingPathComponent("\(directory).json")
         
         if !fileManager.fileExists(atPath: directoryUrl.path) {
             do {
@@ -64,25 +60,9 @@ extension FileCache {
                 throw FileCacheError.failureCreatingDirectory
             }
         }
-        
-        for toDoItem in tasks.values {
-            do {
-                guard let data = try? JSONSerialization.data(
-                    withJSONObject: toDoItem.json,
-                    options: .fragmentsAllowed
-                ) else {
-                    throw FileCacheError.failureDataToJson
-                }
-                
-                let fileUrl = directoryUrl.appendingPathComponent("\(toDoItem.id).json")
-                
-                guard (try? data.write(to: fileUrl)) != nil else {
-                    throw FileCacheError.failureSaveTodoItem
-                }
-            } catch FileCacheError.failureSaveTodoItem {
-                throw FileCacheError.failureSaveTodoItem
-            }
-        }
+        let serializedItems = tasks.map { _, task in task.json }
+        let data = try JSONSerialization.data(withJSONObject: serializedItems, options: [])
+        try data.write(to: directoryUrl)
     }
     
     func loadJSON(from directory: String) throws {
@@ -97,32 +77,18 @@ extension FileCache {
             throw FileCacheError.doesNotExist
         }
         
-        let directoryUrl = cachesDirectoryUrl.appendingPathComponent("\(directory)")
+        let directoryUrl = cachesDirectoryUrl.appendingPathComponent("\(directory).json")
         
-        guard fileManager.fileExists(atPath: directoryUrl.path),
-              let toDoItemsId = try? fileManager.contentsOfDirectory(atPath: directoryUrl.path) else {
-                  throw FileCacheError.doesNotExist
-              }
-
+        guard let data = try? Data(contentsOf: directoryUrl) else {
+            throw FileCacheError.doesNotExist
+        }
         
-        for id in toDoItemsId {
-            let fileUrl = directoryUrl.appendingPathComponent("\(id).json")
-            guard let data = try? Data(contentsOf: fileUrl) else {
-                throw FileCacheError.doesNotExist
-            }
-            
-            guard let json = try? JSONSerialization.jsonObject(
-                with: data,
-                options: .fragmentsAllowed
-            ) else {
-                throw FileCacheError.failureDataToJson
-            }
-            
-            guard let toDoItem = ToDoItem.parse(json: json) else {
-                throw FileCacheError.failureParseTodoItem
-            }
-            
-            tasks[toDoItem.id] = toDoItem
+        guard let json = try JSONSerialization.jsonObject(with: data, options: []) as? [Any] else {
+            throw FileCacheError.doesNotExist
+        }
+        let deserializedItems = json.compactMap { ToDoItem.parse(json: $0) }
+        tasks = deserializedItems.reduce(into: [:]) { res, item in
+            res[item.id] = item
         }
     }
 }
@@ -140,7 +106,7 @@ extension FileCache {
             throw FileCacheError.doesNotExist
         }
         
-        let directoryUrl = cachesDirectoryUrl.appendingPathComponent("\(directory)")
+        let directoryUrl = cachesDirectoryUrl.appendingPathComponent("\(directory).csv")
         
         if !fileManager.fileExists(atPath: directoryUrl.path) {
             do {
@@ -154,17 +120,16 @@ extension FileCache {
             }
         }
         
-        for toDoItem in tasks.values {
-            
-            let csvString = toDoItem.csv
-            
-            let fileUrl = directoryUrl.appendingPathComponent("\(toDoItem.id).csv")
-            
-            do {
-                try csvString.write(to: fileUrl, atomically: true, encoding: .utf8)
-            } catch {
-                throw FileCacheError.failureSaveTodoItem
-            }
+        let data = tasks.map { _, item in
+            item.csv
+        }.reduce(into: ToDoItem.titles.joined(separator: ",")) {
+            $0 += "\n" + $1
+        }
+        
+        do {
+            try data.write(to: directoryUrl, atomically: false, encoding: .utf8)
+        } catch {
+            throw FileCacheError.failureSaveTodoItem
         }
     }
     
@@ -180,30 +145,18 @@ extension FileCache {
             throw FileCacheError.doesNotExist
         }
         
-        let directoryUrl = cachesDirectoryUrl.appendingPathComponent("\(directory)")
+        let directoryUrl = cachesDirectoryUrl.appendingPathComponent("\(directory).csv")
         
-        guard fileManager.fileExists(atPath: directoryUrl.path),
-              let toDoItemsId = try? fileManager.contentsOfDirectory(atPath: directoryUrl.path) else {
-                  throw FileCacheError.doesNotExist
-              }
-
+        guard let data = try? String(contentsOf: directoryUrl) else {
+            throw FileCacheError.doesNotExist
+        }
         
-        for id in toDoItemsId {
-            let fileUrl = directoryUrl.appendingPathComponent("\(id).csv")
-            
-            var csvString = ""
-            
-            do {
-                csvString = try String(contentsOf: fileUrl, encoding: .utf8)
-            } catch {
-                throw FileCacheError.doesNotExist
+        let titles = ToDoItem.titles.joined(separator: ",")
+        for row in data.components(separatedBy: ",") where row != titles {
+            guard let task = ToDoItem.parse(csv: row) else {
+                continue
             }
-            
-            guard let toDoItem = ToDoItem.parse(csv: csvString) else {
-                throw FileCacheError.failureParseTodoItem
-            }
-            
-            tasks[toDoItem.id] = toDoItem
+            tasks[task.id] = task
         }
     }
 }

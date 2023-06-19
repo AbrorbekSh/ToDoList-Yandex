@@ -16,12 +16,14 @@ public struct ToDoItem: Equatable {
     let createdAt: Date
     let editedAt: Date?
     
+    static let titles = ["id", "text", "createdAt", "priority", "deadline", "isCompleted", "editedAt"]
+    
     init(id: String = UUID().uuidString,
          text: String,
          priority: Priority,
          deadline: Date? = nil,
          isCompleted: Bool = false,
-         createdAt: Date,
+         createdAt: Date = Date(),
          editedAt: Date? = nil)
     {
         self.id = id

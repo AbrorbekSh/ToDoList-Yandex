@@ -21,16 +21,22 @@ extension ToDoItem {
         
         if priority != .basic {
             csvString += ",\(priority.rawValue)"
+        } else {
+            csvString += ",-"
         }
         
         if let deadlineTimestamp = deadline?.timeIntervalSince1970 {
             csvString += ",\(deadlineTimestamp)"
+        } else {
+            csvString += ",-"
         }
         
         csvString += ",\(isCompleted)"
         
         if let editedAtTimestamp = editedAt?.timeIntervalSince1970 {
             csvString += ",\(editedAtTimestamp)"
+        } else {
+            csvString += ",-"
         }
         
         return csvString
@@ -39,7 +45,7 @@ extension ToDoItem {
 
 extension ToDoItem {
     private init?(with parsedCSV: [String]) {
-        if parsedCSV.count < 4 {
+        if parsedCSV.count < 7 {
             return nil
         }
         
@@ -51,46 +57,32 @@ extension ToDoItem {
             Date(timeIntervalSince1970: TimeInterval($0))
         }) else { return nil }
         
-        var index = 3 // to keep the order
-        
         var priority: Priority
         
-        switch parsedCSV[index] {
-            
+        switch parsedCSV[3] {
         case "low":
             priority = .low
-            index += 1
             
         case "high":
             priority = .high
-            index += 1
             
         default:
             priority = .basic
         }
         
-        let deadline = (Double(parsedCSV[index]).flatMap {
+        let deadline = (Double(parsedCSV[4]).flatMap {
             Date(timeIntervalSince1970: TimeInterval($0))
         })
         
-        if deadline != nil {
-            index += 1
-        }
-        
         var isCompleted = false
         
-        if parsedCSV[index] == "true" {
+        if parsedCSV[5] == "true" {
             isCompleted = true
         }
-        
-        index += 1
-        
-        var editedAt: Date? = nil
-        if index < parsedCSV.count {
-            editedAt = (Double(parsedCSV[index]).flatMap {
-                Date(timeIntervalSince1970: TimeInterval($0))
-            })
-        }
+
+        let editedAt = (Double(parsedCSV[6]).flatMap {
+            Date(timeIntervalSince1970: TimeInterval($0))
+        })
         
         self.init(
             id: id,
