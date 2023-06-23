@@ -1,0 +1,16 @@
+{
+  "images" : [
+    {
+      "filename" : "Снимок экрана 2023-06-23 в 15.24.10.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  },
+  "properties" : {
+    "preserves-vector-representation" : true,
+    "template-rendering-intent" : "original"
+  }
+}
