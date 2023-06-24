@@ -87,7 +87,7 @@ final class DeadlineView: UIView {
         return label
     }()
     
-    private lazy var deadlineButton: UIButton = {
+    lazy var deadlineButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
 
@@ -108,7 +108,7 @@ final class DeadlineView: UIView {
         return button
     }()
     
-    private lazy var switchButton: UISwitch = {
+    lazy var switchButton: UISwitch = {
         let button = UISwitch()
         button.translatesAutoresizingMaskIntoConstraints = false
         
@@ -142,7 +142,7 @@ final class DeadlineView: UIView {
         return view
     }()
     
-    private lazy var datePicker: UIDatePicker = {
+    lazy var datePicker: UIDatePicker = {
         let datePicker = UIDatePicker()
         datePicker.translatesAutoresizingMaskIntoConstraints = false
         
@@ -160,15 +160,8 @@ final class DeadlineView: UIView {
     
     @objc
     private func didValueChanged(_ sender: UISwitch) {
-        print("da")
         if sender.isOn {
-            print("da")
             deadlineButton.isHidden = false
-//            divider.isHidden = false
-//            UIView.animate(withDuration: 0.3) { [self] in
-//                deadlineButton.isHidden = false
-//                datePicker.isHidden = false
-//            }
         } else {
             divider.isHidden = true
             deadlineButton.isHidden = true

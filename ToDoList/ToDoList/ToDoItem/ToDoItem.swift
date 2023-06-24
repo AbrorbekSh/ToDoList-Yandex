@@ -15,6 +15,7 @@ public struct ToDoItem: Equatable {
     let isCompleted: Bool
     let createdAt: Date
     let editedAt: Date?
+    let color: String
     
     static let titles = ["id", "text", "createdAt", "priority", "deadline", "isCompleted", "editedAt"]
     
@@ -24,7 +25,9 @@ public struct ToDoItem: Equatable {
          deadline: Date? = nil,
          isCompleted: Bool = false,
          createdAt: Date = Date(),
-         editedAt: Date? = nil)
+         editedAt: Date? = nil,
+         color: String = "#000000"
+    )
     {
         self.id = id
         self.text = text
@@ -33,6 +36,7 @@ public struct ToDoItem: Equatable {
         self.isCompleted = isCompleted
         self.createdAt = createdAt
         self.editedAt = editedAt
+        self.color = color
     }
     
     public static func ==(lhs: ToDoItem, rhs: ToDoItem) -> Bool {

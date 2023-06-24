@@ -15,8 +15,20 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene
-        window?.rootViewController = ToDoItemDetails()
-//        window?.rootViewController = ColorPickerViewController()
+        let fileCache = FileCache()
+        let view = ToDoItemDetails(fileCacheService: fileCache, isNew: false)
+//        let item = ToDoItem(
+//                            id: "123456789",
+//                            text: "testing",
+//                            priority: .low,
+//                            deadline: Date.now,
+//                            isCompleted: true,
+//                            createdAt: Date.now,
+//                            editedAt: Date.now,
+//                            color: "#FF453A"
+//        )
+        let nav = UINavigationController(rootViewController: view)
+        window?.rootViewController = nav
         window?.makeKeyAndVisible()
     }
 

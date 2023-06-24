@@ -11,7 +11,67 @@ final class ToDoItemDetails: UIViewController {
     
     //MARK: - Properties
     
-    var toDoItem: ToDoItem?
+    private let fileCacheService: FileCache
+    private var isNew: Bool
+    
+    private var text: String?
+    private var priority: Priority = .high
+    private var deadline: Date?
+    private var hexColor: String = "#000000"
+    
+    private var isCompleted: Bool?
+    private var createdAt: Date = Date()
+    
+    private var toDoItem: ToDoItem? {
+        didSet{
+            textView.text = toDoItem?.text
+            text = toDoItem?.text
+            
+            switch toDoItem?.priority {
+            case .high:
+                importanceView.segmentationControl.selectedSegmentIndex = 2
+                priority = .high
+            case .low:
+                importanceView.segmentationControl.selectedSegmentIndex = 0
+                priority = .low
+            default:
+                importanceView.segmentationControl.selectedSegmentIndex = 1
+                priority = .basic
+            }
+            
+            if let deadline = toDoItem?.deadline {
+                self.deadline = deadline
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "d MMMM yyyy"
+                dateFormatter.locale = Locale(identifier: "ru")
+                let formatedDate = dateFormatter.string(from: deadline)
+                deadlineView.deadlineButton.setTitle(formatedDate, for: .normal)
+                deadlineView.datePicker.date = deadline
+                deadlineView.switchButton.isOn = true
+                deadlineView.deadlineButton.isHidden = false
+            }
+            if let hex = toDoItem?.color {
+                hexColor = hex
+                colorButton.backgroundColor = UIColor(hexString: hex)
+                textView.setTextColor(color: UIColor(hexString: hex))
+            }
+            
+            if let createdAt = toDoItem?.createdAt {
+                self.createdAt = createdAt
+            }
+        }
+    }
+    
+    init(fileCacheService: FileCache, toDoItem: ToDoItem? = nil, isNew: Bool) {
+        self.fileCacheService = fileCacheService
+        self.toDoItem = toDoItem
+        self.isNew = isNew
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     private enum Constants {
         static let radius = 16.0
@@ -93,6 +153,15 @@ final class ToDoItemDetails: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        title = "Дело"
+        
+        let leftItem = UIBarButtonItem(title: "Отменить", style: .plain, target: self, action: #selector(leftItemTapped))
+        let rightItem = UIBarButtonItem(title: "Сохранить", style: .plain, target: self, action: #selector(rightItemTapped))
+
+        self.navigationItem.leftBarButtonItem = leftItem
+        self.navigationItem.rightBarButtonItem = rightItem
+        
         setupObservers()
         self.hideKeyboardWhenTappedAround() //extension
         setup()
@@ -163,9 +232,9 @@ final class ToDoItemDetails: UIViewController {
     @objc
     private func colorButtonPressed(){
         let viewControllerToPresent = ColorPickerViewController()
-        viewControllerToPresent.modalPresentationStyle = .popover
-
-        present(viewControllerToPresent, animated: true, completion: nil)
+        viewControllerToPresent.delegate = self
+        
+        self.navigationController?.pushViewController(viewControllerToPresent, animated: true)
     }
     
     private func setupObservers() {
@@ -199,6 +268,55 @@ final class ToDoItemDetails: UIViewController {
     func adjustScrollViewContentInset(with keyboardHeight: CGFloat) {
         scrollView.contentInset.bottom = keyboardHeight
     }
+    
+    @objc func deleteButtonPressed() {
+        guard let id = toDoItem?.id else {
+            return
+        }
+        fileCacheService.delete(id: id)
+    }
+    
+    @objc func leftItemTapped() {
+        // Handle left item tapped event
+    }
+
+    @objc func rightItemTapped() {
+        if !isNew {
+            guard
+                let id = toDoItem?.id,
+                let text = self.text
+            else {
+                return
+            }
+            let item = ToDoItem(
+                id: id,
+                text: text,
+                priority: priority,
+                deadline: self.deadline,
+                createdAt: createdAt,
+                editedAt: Date(),
+                color: hexColor
+            )
+            
+            fileCacheService.add(task: item)
+        } else {
+            guard
+                let text = self.text
+            else {
+                return
+            }
+            let item = ToDoItem(
+                text: text,
+                priority: priority,
+                deadline: self.deadline,
+                createdAt: Date(),
+                editedAt: Date(),
+                color: hexColor
+            )
+            
+            fileCacheService.add(task: item)
+        }
+    }
 }
 
 //MARK: - UITextViewDelegate
@@ -217,5 +335,16 @@ extension ToDoItemDetails: UITextViewDelegate {
             textView.text = "Что надо сделать?"
             textView.textColor = UIColor.lightGray
         }
+        text = textView.text
+    }
+}
+
+//MARK: - ColorPickerViewControllerDelegate
+
+extension ToDoItemDetails: ColorPickerViewControllerDelegate {
+    func finishChosingColor(colorHex: String) {
+        colorButton.backgroundColor = UIColor(hexString: colorHex)
+        textView.setTextColor(color: UIColor(hexString: colorHex))
+        hexColor = colorHex
     }
 }

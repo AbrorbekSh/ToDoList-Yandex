@@ -65,7 +65,7 @@ final class ImportanceView: UIView {
         return label
     }()
     
-    private let segmentationControl: UISegmentedControl = {
+    let segmentationControl: UISegmentedControl = {
         let items: [Any] = [Images.lowPriority, "нет", Images.highPriority]
         
         let segment = UISegmentedControl(items: items)

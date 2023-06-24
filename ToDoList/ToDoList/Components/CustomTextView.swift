@@ -9,6 +9,19 @@ import UIKit
 
 final class CustomTextView: UIView {
     
+    var text: String? {
+        didSet{
+            if text?.count != 0 {
+                textView.text = text
+                textView.textColor = .black
+            }
+        }
+    }
+    
+    func setTextColor(color: UIColor){
+        textView.textColor = color
+    }
+    
     init(delegate: UITextViewDelegate){
         super.init(frame: .zero)
         textView.delegate = delegate

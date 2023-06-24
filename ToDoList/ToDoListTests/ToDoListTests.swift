@@ -95,7 +95,8 @@ final class ToDoListTests: XCTestCase {
                             deadline: Date.now,
                             isCompleted: true,
                             createdAt: Date.now,
-                            editedAt: Date.now
+                            editedAt: Date.now,
+                            color: "#FF453A"
         )
         return item
     }

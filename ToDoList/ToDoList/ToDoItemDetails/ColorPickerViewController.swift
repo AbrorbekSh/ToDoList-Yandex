@@ -7,7 +7,13 @@
 
 import UIKit
 
+protocol ColorPickerViewControllerDelegate: AnyObject {
+    func finishChosingColor(colorHex: String)
+}
+
 final class ColorPickerViewController: UIViewController {
+    
+    weak var delegate: ColorPickerViewControllerDelegate?
     
     var colorPaletteView: UIImageView!
     var selectedColorView: UIView!
@@ -20,6 +26,14 @@ final class ColorPickerViewController: UIViewController {
         super.viewDidLoad()
         
         view.backgroundColor = UIColor(hexString: "#3AFDFF")
+        
+        title = "Цвет"
+        
+        let leftItem = UIBarButtonItem(title: "Назад", style: .plain, target: self, action: #selector(leftItemTapped))
+        let rightItem = UIBarButtonItem(title: "Готово", style: .plain, target: self, action: #selector(rightItemTapped))
+
+        self.navigationItem.leftBarButtonItem = leftItem
+        self.navigationItem.rightBarButtonItem = rightItem
         
         // Create color palette view
         
@@ -92,6 +106,17 @@ final class ColorPickerViewController: UIViewController {
         let colorComponents = selectedColor.rgbComponents()
         let colorCode = String(format: "#%02X%02X%02X", Int(colorComponents.red * 255), Int(colorComponents.green * 255), Int(colorComponents.blue * 255))
         colorCodeLabel.text = colorCode
+    }
+    
+    @objc func leftItemTapped() {
+        self.navigationController?.popViewController(animated: true)
+    }
+
+    @objc func rightItemTapped() {
+        let colorComponents = selectedColor.rgbComponents()
+        let colorCode = String(format: "#%02X%02X%02X", Int(colorComponents.red * 255), Int(colorComponents.green * 255), Int(colorComponents.blue * 255))
+        delegate?.finishChosingColor(colorHex: colorCode)
+        self.navigationController?.popViewController(animated: true)
     }
 }
 
