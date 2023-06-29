@@ -40,7 +40,7 @@ final class CustomTextView: UIView {
     }
     
     private func setupTextView(){
-        self.backgroundColor = Colors.contentColor
+        self.backgroundColor = UIColor.contentColor
         self.addSubview(textView)
         setupLayout()
     }
@@ -59,7 +59,7 @@ final class CustomTextView: UIView {
         textView.translatesAutoresizingMaskIntoConstraints = false
         
         textView.font = UIFont.systemFont(ofSize: 17, weight: .regular)
-        textView.backgroundColor = Colors.contentColor
+        textView.backgroundColor = UIColor.contentColor
         textView.layer.cornerRadius = 16.0
         textView.textAlignment = .left
         textView.sizeToFit()

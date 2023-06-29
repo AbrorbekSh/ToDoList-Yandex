@@ -7,7 +7,12 @@
 
 import UIKit
 
-final class Images {
+extension UIImage {
+    
     static let highPriority = UIImage(named: "highPriority") ?? UIImage()
+    
     static let lowPriority = UIImage(named: "lowPriority") ?? UIImage()
+    
+    static let calendar = UIImage(named: "calendar") ?? UIImage()
+    
 }

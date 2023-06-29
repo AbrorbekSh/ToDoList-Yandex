@@ -24,7 +24,7 @@ final class ImportanceView: UIView {
     //MARK: - Setup
     
     private func setupView(){
-        self.backgroundColor = Colors.contentColor
+        self.backgroundColor = UIColor.contentColor
         self.addSubview(imporatanceLabel)
         self.addSubview(segmentationControl)
         self.addSubview(divider)
@@ -56,23 +56,23 @@ final class ImportanceView: UIView {
         label.translatesAutoresizingMaskIntoConstraints = false
         
         label.text = "Важность"
-        label.font = Fonts.contentFont
-        label.textColor = Colors.textColor
+        label.font = UIFont.contentFont
+        label.textColor = UIColor.textColor
         label.sizeToFit()
-        label.backgroundColor = Colors.contentColor
+        label.backgroundColor = UIColor.contentColor
         label.layer.masksToBounds = true
         
         return label
     }()
     
     let segmentationControl: UISegmentedControl = {
-        let items: [Any] = [Images.lowPriority, "нет", Images.highPriority]
+        let items: [Any] = [UIImage.lowPriority, "нет", UIImage.highPriority]
         
         let segment = UISegmentedControl(items: items)
         segment.translatesAutoresizingMaskIntoConstraints = false
         
-        segment.selectedSegmentTintColor = Colors.switchSelectedColor
-        segment.backgroundColor = Colors.switchBackgroundColor
+        segment.selectedSegmentTintColor = UIColor.switchSelectedColor
+        segment.backgroundColor = UIColor.switchBackgroundColor
         segment.selectedSegmentIndex = 2
         
         return segment

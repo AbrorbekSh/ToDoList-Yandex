@@ -143,7 +143,7 @@ final class ToDoItemDetails: UIViewController {
         button.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .regular)
         button.setTitleColor(.red, for: .normal)
         button.layer.cornerRadius = Constants.radius
-        button.backgroundColor = Colors.contentColor
+        button.backgroundColor = UIColor.contentColor
         
         return button
     }()
@@ -176,7 +176,7 @@ final class ToDoItemDetails: UIViewController {
     }
     
     private func setupView(){
-        view.backgroundColor = Colors.backgroundColor
+        view.backgroundColor = UIColor.backgroundColor
     }
     
     private func addSubviews(){
@@ -326,7 +326,7 @@ extension ToDoItemDetails: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         if textView.textColor == UIColor.lightGray {
             textView.text = nil
-            textView.textColor = Colors.textColor
+            textView.textColor = UIColor.textColor
         }
     }
     

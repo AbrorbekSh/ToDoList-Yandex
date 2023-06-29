@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class Fonts {
+extension UIFont {
     static let contentFont = UIFont.systemFont(ofSize: 17, weight: .regular)
     static let chooseDeadlineFont = UIFont.systemFont(ofSize: 13, weight: .regular)
 }

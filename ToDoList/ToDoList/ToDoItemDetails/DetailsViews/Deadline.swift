@@ -24,7 +24,7 @@ final class DeadlineView: UIView {
     //MARK: - Setup
     
     private func setupView(){
-        self.backgroundColor = Colors.contentColor
+        self.backgroundColor = UIColor.contentColor
         labelsStackView.addArrangedSubview(titleLabel)
         labelsStackView.addArrangedSubview(deadlineButton)
         contentStackView.addArrangedSubview(labelsStackView)
@@ -78,10 +78,10 @@ final class DeadlineView: UIView {
         label.translatesAutoresizingMaskIntoConstraints = false
         
         label.text = "Сделать до"
-        label.font = Fonts.contentFont
-        label.textColor = Colors.textColor
+        label.font = UIFont.contentFont
+        label.textColor = UIColor.textColor
         label.sizeToFit()
-        label.backgroundColor = Colors.contentColor
+        label.backgroundColor = UIColor.contentColor
         label.layer.masksToBounds = true
         
         return label
@@ -98,9 +98,9 @@ final class DeadlineView: UIView {
         let formatedDate = dateFormatter.string(from: date)
 
         button.setTitle(formatedDate, for: .normal)
-        button.titleLabel?.font = Fonts.chooseDeadlineFont
-        button.setTitleColor(Colors.systemBlue, for: .normal)
-        button.backgroundColor = Colors.contentColor
+        button.titleLabel?.font = UIFont.chooseDeadlineFont
+        button.setTitleColor(UIColor.systemBlue, for: .normal)
+        button.backgroundColor = UIColor.contentColor
         button.isHidden = true
         
         button.addTarget(self, action: #selector(deadlineButtonPressed), for: .touchUpInside)
@@ -146,7 +146,7 @@ final class DeadlineView: UIView {
         let datePicker = UIDatePicker()
         datePicker.translatesAutoresizingMaskIntoConstraints = false
         
-        datePicker.backgroundColor = Colors.contentColor
+        datePicker.backgroundColor = UIColor.contentColor
         datePicker.timeZone = .autoupdatingCurrent
         datePicker.preferredDatePickerStyle = .inline
         datePicker.datePickerMode = .date
