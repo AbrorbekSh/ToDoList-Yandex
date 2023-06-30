@@ -31,8 +31,9 @@ final class NewToDoItemCell: UITableViewCell {
     }
     
     private func setup() {
-        backgroundColor = UIColor(named: "cellsAddTodoItemBackground")
+        backgroundColor = .contentColor
         addSubview(newLabel)
+        selectionStyle = .none
         
         NSLayoutConstraint.activate([
             newLabel.leadingAnchor.constraint(

@@ -24,8 +24,9 @@ final class AppCoordinator: Coordinator {
     
     func start() {
         let navigationController = UINavigationController()
+        let fileCache = FileCache()
         
-        let toDoItemsListCoordinator = ToDoItemListCoordinator(navigationController: navigationController)
+        let toDoItemsListCoordinator = ToDoItemListCoordinator(navigationController: navigationController, fileCache: fileCache)
         childCoordinators.append(toDoItemsListCoordinator)
         toDoItemsListCoordinator.start()
         

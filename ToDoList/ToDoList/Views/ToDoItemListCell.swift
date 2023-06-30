@@ -120,7 +120,7 @@ final class ToDoItemListCell: UITableViewCell {
         descriptionLabel.attributedText = .none
     }
     
-    func configure(toDoItem: ToDoItem) {
+    func update(toDoItem: ToDoItem) {
         switch toDoItem.priority {
         case .high:
             descriptionLabel.text = "‼️" + toDoItem.text
@@ -140,7 +140,6 @@ final class ToDoItemListCell: UITableViewCell {
             deadlineLabel.isHidden = true
         }
         
-        
         if toDoItem.isCompleted {
             let config = UIImage.SymbolConfiguration(
                 font: .boldSystemFont(ofSize: 20),
@@ -156,7 +155,8 @@ final class ToDoItemListCell: UITableViewCell {
                 string: descriptionLabel.text ?? " ",
                 attributes: [
                     NSAttributedString.Key.strikethroughStyle:
-                        NSUnderlineStyle.single.rawValue
+                        NSUnderlineStyle.single.rawValue,
+                    NSAttributedString.Key.foregroundColor : UIColor.lightGray
                 ]
             )
         } else {
@@ -180,6 +180,7 @@ final class ToDoItemListCell: UITableViewCell {
     
     private func setup() {
         backgroundColor = UIColor.contentColor
+        selectionStyle = .none
         addSubviews()
         setConstraints()
     }

@@ -9,8 +9,18 @@ import UIKit
 
 final class ToDoItemListViewController: UIViewController {
     
-    var viewModel: ToDoItemListViewModel?
-    var list: [ToDoItem] = []
+    private let viewModel: ToDoItemListViewModel
+    
+    init(viewModel: ToDoItemListViewModel){
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    //MARK: - UI Elements
     
     private let tableView: UITableView = {
         let table = UITableView(frame: .zero, style: .insetGrouped)
@@ -41,7 +51,7 @@ final class ToDoItemListViewController: UIViewController {
         
         button.addTarget(
             self,
-            action: #selector(didTapAddTodoItemButton),
+            action: #selector(addNewItemPressed),
             for: .touchUpInside
         )
         
@@ -53,26 +63,51 @@ final class ToDoItemListViewController: UIViewController {
         return button
     }()
     
+    //MARK: - LifeCycle
+    
+    override func loadView() {
+        super.loadView()
+        
+        viewModel.loadView()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = viewModel?.title
-        navigationController?.navigationBar.prefersLargeTitles = true
-        view.backgroundColor = UIColor.backgroundColor
-        
-        view.addSubview(tableView)
-        view.addSubview(addTodoItemButton)
-        tableView.frame = view.bounds
-        tableView.delegate = self
-        tableView.dataSource = self
+        viewModel.viewDidLoad()
+        setupView()
+        setupViewModel()
         setupLayout()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        viewModel.viewWillDisappear()
     }
     
     
     //MARK: - Setup
     
-    private func setupLayout(){
+    private func setupView(){
+        title = viewModel.title
+        navigationController?.navigationBar.prefersLargeTitles = true
+        view.backgroundColor = UIColor.backgroundColor
         
+        view.addSubview(tableView)
+        view.addSubview(addTodoItemButton)
+        
+        tableView.delegate = self
+        tableView.dataSource = self
+    }
+    
+    private func setupViewModel(){
+        viewModel.reloadTableView = {
+            self.tableView.reloadData()
+        }
+    }
+    
+    private func setupLayout(){
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.topAnchor
@@ -100,75 +135,67 @@ final class ToDoItemListViewController: UIViewController {
             addTodoItemButton.bottomAnchor.constraint(
                 equalTo: view.bottomAnchor,
                 constant: -54
-            )])
+            )
+        ])
     }
-            
+    
+    //MARK: - Methods
+    
     @objc
-    private func didTapAddTodoItemButton(_: UIButton) {
-        viewModel?.didTapAddTodoItemButton()
+    private func addNewItemPressed(_: UIButton) {
+        viewModel.addNewItemPressed()
     }
 }
 
-extension ToDoItemListViewController: UITableViewDataSource, UITableViewDelegate {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        10
-    }
+//MARK: - UITableViewDataSource
+
+extension ToDoItemListViewController: UITableViewDataSource {
     
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        viewModel.getNumberofItems() + 1
+    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        if indexPath.row == 4 {
+        if indexPath.row == viewModel.getNumberofItems() {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: NewToDoItemCell.identifier, for: indexPath) as? NewToDoItemCell else {
                     return UITableViewCell()
                 }
-            cell.selectionStyle = .none
             return cell
         }
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: ToDoItemListCell.identifier, for: indexPath) as? ToDoItemListCell else {
                 return UITableViewCell()
             }
-        cell.selectionStyle = .none
         
-        let item = ToDoItem(
-                            id: "123456789",
-                            text: "Купить что-то, где-то, зачем-то, но зачем не очень понятно, но точно чтобы поJIOJOIJOIJOIJOIJOIJOIJIOJJOIJOIJIOJIOJIIIPBU[OBO[B[OBO[BONPN ONPUN",
-                            priority: .low,
-                            deadline: Date.now,
-                            isCompleted: false,
-                            createdAt: Date.now,
-                            editedAt: Date.now,
-                            color: "#FF453A"
-        )
-        
-        let item2 = ToDoItem(
-                            id: "123456789",
-                            text: "Купить что-то, где-то, зачем-то",
-                            priority: .high,
-                            deadline: Date.now,
-                            isCompleted: false,
-                            createdAt: Date.now,
-                            editedAt: Date.now,
-                            color: "#FF453A"
-        )
-        if indexPath.row % 2 == 0 {
-            cell.configure(toDoItem: item)
-            return cell
+        viewModel.updateCell(at: indexPath) { item in
+            cell.update(toDoItem: item)
         }
-        cell.configure(toDoItem: item2)
 
         return cell
     }
+    
+}
+
+//MARK: - UITableViewDelegate
+
+extension ToDoItemListViewController:  UITableViewDelegate {
     
     func tableView(
         _ tableView: UITableView,
         leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath
     ) -> UISwipeActionsConfiguration? {
         
-        //if last dont perform anything
+        if indexPath.row == viewModel.getNumberofItems() {
+            return nil
+        }
         
         let markAsDoneButton = UIContextualAction(style: .normal, title: "") { [weak self] (_, _, completion) in
             completion(true)
+            guard let strongSelf = self else {
+                return
+            }
+            strongSelf.viewModel.markAsDone(at: indexPath)
         }
         let configMarkAsDone = UIImage.SymbolConfiguration(
             font: .boldSystemFont(ofSize: 20),
@@ -190,10 +217,16 @@ extension ToDoItemListViewController: UITableViewDataSource, UITableViewDelegate
         trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
     ) -> UISwipeActionsConfiguration? {
         
-        //if last dont perform anything
+        if indexPath.row == viewModel.getNumberofItems() {
+            return nil
+        }
         
         let deleteButton = UIContextualAction(style: .destructive, title: "") { [weak self] (_, _, completion) in
             completion(true)
+            guard let strongSelf = self else {
+                return
+            }
+            strongSelf.viewModel.deleteItem(at: indexPath)
         }
         let configDelete = UIImage.SymbolConfiguration(
             font: .boldSystemFont(ofSize: 20),
@@ -207,6 +240,10 @@ extension ToDoItemListViewController: UITableViewDataSource, UITableViewDelegate
         
         let infoButton = UIContextualAction(style: .destructive, title: "") { [weak self] (_, _, completion) in
             completion(true)
+            guard let strongSelf = self else {
+                return
+            }
+            strongSelf.viewModel.openDetailsView(at: indexPath)
         }
         let configInfo = UIImage.SymbolConfiguration(
             font: .boldSystemFont(ofSize: 20),
@@ -222,17 +259,13 @@ extension ToDoItemListViewController: UITableViewDataSource, UITableViewDelegate
         config.performsFirstActionWithFullSwipe = true
         return config
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.row == viewModel.getNumberofItems() {
+            viewModel.addNewItemPressed()
+        }
+    }
 
-    
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: TableViewHeader.identifier) as? TableViewHeader
-        return header
-    }
-    
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        32
-    }
-    
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if indexPath.row == 0 {
             let maskPath = UIBezierPath(roundedRect: cell.bounds,
@@ -241,14 +274,30 @@ extension ToDoItemListViewController: UITableViewDataSource, UITableViewDelegate
             let shape = CAShapeLayer()
             shape.path = maskPath.cgPath
             cell.layer.mask = shape
-        } else if indexPath.row == 4 {
+        } else if indexPath.row == viewModel.getNumberofItems() {
             let maskPath = UIBezierPath(roundedRect: cell.bounds,
                                         byRoundingCorners: [.bottomLeft, .bottomRight],
                                         cornerRadii: CGSize (width: 16, height: 16))
             let shape = CAShapeLayer()
             shape.path = maskPath.cgPath
             cell.layer.mask = shape
+        } else {
+            let maskPath = UIBezierPath(roundedRect: cell.bounds,
+                                        byRoundingCorners: [.bottomLeft, .bottomRight, .topLeft, .topRight],
+                                        cornerRadii: CGSize (width: 0, height: 0))
+            let shape = CAShapeLayer()
+            shape.path = maskPath.cgPath
+            cell.layer.mask = shape
         }
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: TableViewHeader.identifier) as? TableViewHeader
+        return header
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        32
     }
 }
 

@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		21154E4A2A34569D00129A50 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21154E492A34569D00129A50 /* AppDelegate.swift */; };
 		21154E4C2A34569D00129A50 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21154E4B2A34569D00129A50 /* SceneDelegate.swift */; };
-		21154E4E2A34569D00129A50 /* ToDoItemDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21154E4D2A34569D00129A50 /* ToDoItemDetails.swift */; };
+		21154E4E2A34569D00129A50 /* ToDoItemDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21154E4D2A34569D00129A50 /* ToDoItemDetailsViewController.swift */; };
 		21154E532A34569E00129A50 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 21154E522A34569E00129A50 /* Assets.xcassets */; };
 		21154E562A34569E00129A50 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 21154E542A34569E00129A50 /* LaunchScreen.storyboard */; };
 		21154E612A345A0200129A50 /* ToDoItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21154E602A345A0200129A50 /* ToDoItem.swift */; };
@@ -23,6 +23,7 @@
 		212B20C72A4DA34400E47714 /* ToDoItemListCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 212B20C62A4DA34400E47714 /* ToDoItemListCoordinator.swift */; };
 		212B20CB2A4DA6E100E47714 /* ToDoItemListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 212B20CA2A4DA6E100E47714 /* ToDoItemListViewModel.swift */; };
 		212B20CD2A4DA87000E47714 /* ToDoItemDetailsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 212B20CC2A4DA87000E47714 /* ToDoItemDetailsCoordinator.swift */; };
+		212B20CF2A4DB45800E47714 /* ToDoItemDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 212B20CE2A4DB45800E47714 /* ToDoItemDetailsViewModel.swift */; };
 		216E53682A441EC700D68D86 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216E53672A441EC700D68D86 /* Date+Extension.swift */; };
 		216E536A2A44ADC500D68D86 /* ColorPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216E53692A44ADC500D68D86 /* ColorPickerViewController.swift */; };
 		21CAA02D2A4184DA00A093D2 /* UIColor+Extesnion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21CAA02C2A4184DA00A093D2 /* UIColor+Extesnion.swift */; };
@@ -53,7 +54,7 @@
 		21154E462A34569D00129A50 /* ToDoList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ToDoList.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		21154E492A34569D00129A50 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		21154E4B2A34569D00129A50 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		21154E4D2A34569D00129A50 /* ToDoItemDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoItemDetails.swift; sourceTree = "<group>"; };
+		21154E4D2A34569D00129A50 /* ToDoItemDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoItemDetailsViewController.swift; sourceTree = "<group>"; };
 		21154E522A34569E00129A50 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		21154E552A34569E00129A50 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		21154E572A34569E00129A50 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -68,6 +69,7 @@
 		212B20C62A4DA34400E47714 /* ToDoItemListCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoItemListCoordinator.swift; sourceTree = "<group>"; };
 		212B20CA2A4DA6E100E47714 /* ToDoItemListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoItemListViewModel.swift; sourceTree = "<group>"; };
 		212B20CC2A4DA87000E47714 /* ToDoItemDetailsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoItemDetailsCoordinator.swift; sourceTree = "<group>"; };
+		212B20CE2A4DB45800E47714 /* ToDoItemDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoItemDetailsViewModel.swift; sourceTree = "<group>"; };
 		216E53672A441EC700D68D86 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		216E53692A44ADC500D68D86 /* ColorPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPickerViewController.swift; sourceTree = "<group>"; };
 		21CAA02C2A4184DA00A093D2 /* UIColor+Extesnion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extesnion.swift"; sourceTree = "<group>"; };
@@ -131,7 +133,6 @@
 				21CAA02E2A41D9E600A093D2 /* Components */,
 				21CAA03F2A43067300A093D2 /* Extensions */,
 				212B20B62A499F1B00E47714 /* ToDoItemList */,
-				21CAA0342A42E0BF00A093D2 /* ToDoItemDetails */,
 				21CAA0332A42E08F00A093D2 /* ToDoItem */,
 				21154E5E2A3457BD00129A50 /* Resources */,
 			);
@@ -182,6 +183,7 @@
 				212B20C12A4D52E400E47714 /* TableViewHeader.swift */,
 				212B20B92A49B45200E47714 /* ToDoItemListCell.swift */,
 				212B20BD2A4C5EC900E47714 /* NewToDoItemCell.swift */,
+				21CAA0342A42E0BF00A093D2 /* ToDoItemDetails */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -190,6 +192,7 @@
 			isa = PBXGroup;
 			children = (
 				212B20CA2A4DA6E100E47714 /* ToDoItemListViewModel.swift */,
+				212B20CE2A4DB45800E47714 /* ToDoItemDetailsViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -217,7 +220,7 @@
 			isa = PBXGroup;
 			children = (
 				21CAA0352A42E10700A093D2 /* DetailsViews */,
-				21154E4D2A34569D00129A50 /* ToDoItemDetails.swift */,
+				21154E4D2A34569D00129A50 /* ToDoItemDetailsViewController.swift */,
 				216E53692A44ADC500D68D86 /* ColorPickerViewController.swift */,
 			);
 			path = ToDoItemDetails;
@@ -358,12 +361,13 @@
 				21CAA0372A42E15400A093D2 /* Importance.swift in Sources */,
 				216E536A2A44ADC500D68D86 /* ColorPickerViewController.swift in Sources */,
 				21CAA03C2A42E2A700A093D2 /* UIFont+Constants.swift in Sources */,
+				212B20CF2A4DB45800E47714 /* ToDoItemDetailsViewModel.swift in Sources */,
 				21CAA0322A41E1BB00A093D2 /* UIViewController+Extension.swift in Sources */,
 				21CAA0392A42E1AA00A093D2 /* UIColor+Constants.swift in Sources */,
 				212B20BA2A49B45200E47714 /* ToDoItemListCell.swift in Sources */,
 				212B20CB2A4DA6E100E47714 /* ToDoItemListViewModel.swift in Sources */,
 				21D750182A3A205200F8C4F4 /* ParseCSV.swift in Sources */,
-				21154E4E2A34569D00129A50 /* ToDoItemDetails.swift in Sources */,
+				21154E4E2A34569D00129A50 /* ToDoItemDetailsViewController.swift in Sources */,
 				212B20BE2A4C5EC900E47714 /* NewToDoItemCell.swift in Sources */,
 				21154E4A2A34569D00129A50 /* AppDelegate.swift in Sources */,
 				212B20C72A4DA34400E47714 /* ToDoItemListCoordinator.swift in Sources */,

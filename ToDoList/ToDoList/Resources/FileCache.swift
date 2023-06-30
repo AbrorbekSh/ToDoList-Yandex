@@ -14,84 +14,105 @@ enum FileCacheError: Error {
     case failureSaveTodoItem
     case alreadyExists
     case doesNotExist
+    case notFound
 }
 
 final class FileCache {
-    
-    private(set) var tasks = [String:ToDoItem]()
+    private(set) var items = [String:ToDoItem]()
     private var fileManager = FileManager.default
     
-    func add(task: ToDoItem) -> ToDoItem? {
-        let prevItem = tasks[task.id]
-        tasks[task.id] = task
-        return prevItem
+    func add(todoItem: ToDoItem) {
+        if items[todoItem.id] != nil {
+            items[todoItem.id] = todoItem
+        } else {
+            items[todoItem.id] = todoItem
+        }
     }
     
-    func delete(id: String) -> ToDoItem? {
-        let prevItem = tasks[id]
-        tasks[id] = nil
-        return prevItem
+    func delete(id: String) {
+        items.removeValue(forKey: id)
     }
+        
 }
 
 //MARK: - FileCache for JSON
 
 extension FileCache {
-    
-    func saveJSON(to directory: String) throws {
-        let urls = fileManager.urls(
-            for: .cachesDirectory,
-            in: .userDomainMask
-        )
-        guard let cachesDirectoryUrl = urls.first else {
-            throw FileCacheError.doesNotExist
+    func save(to dir: String) throws {
+        let dirUrl = try getDirUrl(by: dir)
+        try clearCache(by: dir)
+        
+        if !fileManager.fileExists(atPath: dirUrl.path) {
+            try fileManager.createDirectory(at: dirUrl, withIntermediateDirectories: true, attributes: nil)
         }
         
-        let directoryUrl = cachesDirectoryUrl.appendingPathComponent("\(directory).json")
-        
-        if !fileManager.fileExists(atPath: directoryUrl.path) {
-            do {
-                try fileManager.createDirectory(
-                    at: directoryUrl,
-                    withIntermediateDirectories: true,
-                    attributes: nil
-                )
-            } catch {
-                throw FileCacheError.failureCreatingDirectory
-            }
+        for todoItem in items.values {
+            try addToFile(todoItem: todoItem, to: dirUrl)
         }
-        let serializedItems = tasks.map { _, task in task.json }
-        let data = try JSONSerialization.data(withJSONObject: serializedItems, options: [])
-        try data.write(to: directoryUrl)
     }
     
-    func loadJSON(from directory: String) throws {
+    func load(from dir: String) throws {
+        let dirUrl = try getDirUrl(by: dir)
         
-        tasks.removeAll()
-        
-        let urls = fileManager.urls(
-            for: .cachesDirectory,
-            in: .userDomainMask
-        )
-        guard let cachesDirectoryUrl = urls.first else {
-            throw FileCacheError.doesNotExist
+        guard let todoItemsId = try? getTodoItemsId(from: dirUrl) else {
+            return
         }
         
-        let directoryUrl = cachesDirectoryUrl.appendingPathComponent("\(directory).json")
+        items.removeAll()
         
-        guard let data = try? Data(contentsOf: directoryUrl) else {
-            throw FileCacheError.doesNotExist
+        for id in todoItemsId {
+            let todoItem = try getTodoItem(from: dirUrl, by: id)
+            items[todoItem.id] = todoItem
+        }
+    }
+    
+    func contains(todoItem: ToDoItem) -> Bool {
+        items.keys.contains(todoItem.id)
+    }
+    
+    func clearCache(by name: String) throws {
+        let dirUrl = try getDirUrl(by: name)
+        
+        if fileManager.fileExists(atPath: dirUrl.path) {
+            try fileManager.removeItem(at: dirUrl)
+        }
+    }
+    
+    private func getDirUrl(by dir: String) throws -> URL {
+        guard let cachesDirectoryUrl = fileManager.urls(for: .cachesDirectory, in: .userDomainMask).first else {
+            throw FileCacheError.alreadyExists
         }
         
-        guard let json = try JSONSerialization.jsonObject(with: data, options: []) as? [Any] else {
-            throw FileCacheError.doesNotExist
+        return cachesDirectoryUrl.appendingPathComponent(dir)
+    }
+    
+    private func addToFile(todoItem: ToDoItem, to dir: URL) throws {
+        let data = try JSONSerialization.data(withJSONObject: todoItem.json, options: .fragmentsAllowed)
+        let fileUrl = dir.appendingPathComponent("\(todoItem.id).json")
+        try data.write(to: fileUrl)
+    }
+    
+    private func getTodoItemsId(from dirUrl: URL) throws -> [String] {
+        guard fileManager.fileExists(atPath: dirUrl.path),
+              let todoItemsId = try? fileManager.contentsOfDirectory(atPath: dirUrl.path) else {
+            throw FileCacheError.alreadyExists
         }
-        let deserializedItems = json.compactMap { ToDoItem.parse(json: $0) }
-        tasks = deserializedItems.reduce(into: [:]) { res, item in
-            res[item.id] = item
+        
+        return todoItemsId
+    }
+    
+    private func getTodoItem(from dirUrl: URL, by id: String) throws -> ToDoItem {
+        let fileUrl = dirUrl.appendingPathComponent("\(id)")
+        let data = try Data(contentsOf: fileUrl)
+        guard let json = try JSONSerialization.jsonObject(with: data, options: .fragmentsAllowed) as? [String: Any],
+              let todoItem = ToDoItem.parse(json: json) else {
+            throw FileCacheError.failureParseTodoItem
         }
+        
+        return todoItem
     }
 }
+
 
 //MARK: - FileCache for CSV
 
@@ -120,7 +141,7 @@ extension FileCache {
             }
         }
         
-        let data = tasks.map { _, item in
+        let data = items.map { _, item in
             item.csv
         }.reduce(into: ToDoItem.titles.joined(separator: ",")) {
             $0 += "\n" + $1
@@ -135,7 +156,7 @@ extension FileCache {
     
     func loadCSV(from directory: String) throws {
         
-        tasks.removeAll()
+        items.removeAll()
         
         let urls = fileManager.urls(
             for: .cachesDirectory,
@@ -156,7 +177,7 @@ extension FileCache {
             guard let task = ToDoItem.parse(csv: row) else {
                 continue
             }
-            tasks[task.id] = task
+            items[task.id] = task
         }
     }
 }

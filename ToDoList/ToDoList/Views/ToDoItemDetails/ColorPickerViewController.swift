@@ -29,8 +29,8 @@ final class ColorPickerViewController: UIViewController {
         
         title = "Цвет"
         
-        let leftItem = UIBarButtonItem(title: "Назад", style: .plain, target: self, action: #selector(leftItemTapped))
-        let rightItem = UIBarButtonItem(title: "Готово", style: .plain, target: self, action: #selector(rightItemTapped))
+        let leftItem = UIBarButtonItem(title: "Назад", style: .plain, target: self, action: #selector(backPressed))
+        let rightItem = UIBarButtonItem(title: "Готово", style: .plain, target: self, action: #selector(readyPressed))
 
         self.navigationItem.leftBarButtonItem = leftItem
         self.navigationItem.rightBarButtonItem = rightItem
@@ -108,11 +108,11 @@ final class ColorPickerViewController: UIViewController {
         colorCodeLabel.text = colorCode
     }
     
-    @objc func leftItemTapped() {
+    @objc func backPressed() {
         self.navigationController?.popViewController(animated: true)
     }
 
-    @objc func rightItemTapped() {
+    @objc func readyPressed() {
         let colorComponents = selectedColor.rgbComponents()
         let colorCode = String(format: "#%02X%02X%02X", Int(colorComponents.red * 255), Int(colorComponents.green * 255), Int(colorComponents.blue * 255))
         delegate?.finishChosingColor(colorHex: colorCode)
