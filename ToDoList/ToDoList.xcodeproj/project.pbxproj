@@ -25,6 +25,9 @@
 		212B20CB2A4DA6E100E47714 /* ToDoItemListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 212B20CA2A4DA6E100E47714 /* ToDoItemListViewModel.swift */; };
 		212B20CD2A4DA87000E47714 /* ToDoItemDetailsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 212B20CC2A4DA87000E47714 /* ToDoItemDetailsCoordinator.swift */; };
 		212B20CF2A4DB45800E47714 /* ToDoItemDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 212B20CE2A4DB45800E47714 /* ToDoItemDetailsViewModel.swift */; };
+		2168BE0E2A4FE565003F6591 /* CocoaLumberjack in Frameworks */ = {isa = PBXBuildFile; productRef = 2168BE0D2A4FE565003F6591 /* CocoaLumberjack */; };
+		2168BE102A4FE565003F6591 /* CocoaLumberjackSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 2168BE0F2A4FE565003F6591 /* CocoaLumberjackSwift */; };
+		2168BE122A4FE565003F6591 /* CocoaLumberjackSwiftLogBackend in Frameworks */ = {isa = PBXBuildFile; productRef = 2168BE112A4FE565003F6591 /* CocoaLumberjackSwiftLogBackend */; };
 		216E53682A441EC700D68D86 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216E53672A441EC700D68D86 /* Date+Extension.swift */; };
 		216E536A2A44ADC500D68D86 /* ColorPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216E53692A44ADC500D68D86 /* ColorPickerViewController.swift */; };
 		21CAA02D2A4184DA00A093D2 /* UIColor+Extesnion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21CAA02C2A4184DA00A093D2 /* UIColor+Extesnion.swift */; };
@@ -100,7 +103,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2168BE0E2A4FE565003F6591 /* CocoaLumberjack in Frameworks */,
 				1945C42DFB4D31E8DF09F30D /* Pods_ToDoList.framework in Frameworks */,
+				2168BE122A4FE565003F6591 /* CocoaLumberjackSwiftLogBackend in Frameworks */,
+				2168BE102A4FE565003F6591 /* CocoaLumberjackSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -307,6 +313,11 @@
 			dependencies = (
 			);
 			name = ToDoList;
+			packageProductDependencies = (
+				2168BE0D2A4FE565003F6591 /* CocoaLumberjack */,
+				2168BE0F2A4FE565003F6591 /* CocoaLumberjackSwift */,
+				2168BE112A4FE565003F6591 /* CocoaLumberjackSwiftLogBackend */,
+			);
 			productName = ToDoList;
 			productReference = 21154E462A34569D00129A50 /* ToDoList.app */;
 			productType = "com.apple.product-type.application";
@@ -358,6 +369,9 @@
 				Base,
 			);
 			mainGroup = 21154E3D2A34569D00129A50;
+			packageReferences = (
+				2168BE0C2A4FE565003F6591 /* XCRemoteSwiftPackageReference "CocoaLumberjack" */,
+			);
 			productRefGroup = 21154E472A34569D00129A50 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -758,6 +772,35 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		2168BE0C2A4FE565003F6591 /* XCRemoteSwiftPackageReference "CocoaLumberjack" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/CocoaLumberjack/CocoaLumberjack.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		2168BE0D2A4FE565003F6591 /* CocoaLumberjack */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2168BE0C2A4FE565003F6591 /* XCRemoteSwiftPackageReference "CocoaLumberjack" */;
+			productName = CocoaLumberjack;
+		};
+		2168BE0F2A4FE565003F6591 /* CocoaLumberjackSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2168BE0C2A4FE565003F6591 /* XCRemoteSwiftPackageReference "CocoaLumberjack" */;
+			productName = CocoaLumberjackSwift;
+		};
+		2168BE112A4FE565003F6591 /* CocoaLumberjackSwiftLogBackend */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2168BE0C2A4FE565003F6591 /* XCRemoteSwiftPackageReference "CocoaLumberjack" */;
+			productName = CocoaLumberjackSwiftLogBackend;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 21154E3E2A34569D00129A50 /* Project object */;
 }
