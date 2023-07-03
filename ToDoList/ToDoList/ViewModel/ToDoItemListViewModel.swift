@@ -11,6 +11,9 @@ final class ToDoItemListViewModel {
     
     private let fileCache: FileCache
     private var items: [ToDoItem] = []
+    private var filteredItems: [ToDoItem] = []
+    private var willShowAll: Bool = true
+    var isFull: Bool = true
     
     weak var coordinator: ToDoItemListCoordinator?
     
@@ -23,7 +26,6 @@ final class ToDoItemListViewModel {
     }
     
     func loadView() {
-//        try? fileCache.loadJSON(from: "directory")
         try? fileCache.load(from: "directory")
     }
     
@@ -40,13 +42,14 @@ final class ToDoItemListViewModel {
     }
     
     func deleteItem(at indexPath: IndexPath) {
-        fileCache.delete(id: items[indexPath.row].id)
-        items.remove(at: indexPath.row)
+        fileCache.delete(id: filteredItems[indexPath.row].id)
+        filteredItems.remove(at: indexPath.row)
+        updateItems()
         reloadTableView?()
     }
     
     func markAsDone(at indexPath: IndexPath) {
-        let item = items[indexPath.row]
+        let item = filteredItems[indexPath.row]
         guard !item.isCompleted else {
             return
         }
@@ -60,17 +63,20 @@ final class ToDoItemListViewModel {
                                     editedAt: item.editedAt,
                                     color: item.color)
         fileCache.add(todoItem: updatedItem)
-        items[indexPath.row] = updatedItem
+        filteredItems[indexPath.row] = updatedItem
+        filterItems()
+        updateItems()
+        
         reloadTableView?()
     }
     
     func updateCell(at indexPath: IndexPath, completion:  @escaping ((ToDoItem) -> Void)) {
-        let item = items[indexPath.row]
+        let item = filteredItems[indexPath.row]
         completion(item)
     }
     
     func getNumberofItems() -> Int {
-        return items.count
+        return filteredItems.count
     }
     
     func addNewItemPressed(){
@@ -83,12 +89,37 @@ final class ToDoItemListViewModel {
         }).sorted(by: { firstItem, secondItem in
             firstItem.createdAt > secondItem.createdAt
         })
+        filterItems() 
+    }
+    
+    private func filterItems() {
+        if willShowAll {
+            filteredItems = items
+        } else {
+            filteredItems = items.filter({ $0.isCompleted == false })
+        }
     }
 }
 
 extension ToDoItemListViewModel: ItemDetailsDelegate {
     func changesAppeared() {
         updateItems()
+        filterItems()
+        reloadTableView?()
+    }
+}
+
+extension ToDoItemListViewModel: TableViewHeaderDelegate {
+    
+    func getNumberOfItmes() -> Int {
+        let count = items.filter({ $0.isCompleted == true }).count
+        return count
+    }
+    
+    func showItemsByStatus() {
+        willShowAll = !willShowAll
+        isFull = willShowAll
+        filterItems()
         reloadTableView?()
     }
 }

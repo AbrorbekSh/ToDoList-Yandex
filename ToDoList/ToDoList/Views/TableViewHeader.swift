@@ -7,9 +7,30 @@
 
 import UIKit
 
+protocol TableViewHeaderDelegate: AnyObject {
+    var isFull: Bool { get }
+    
+    func getNumberOfItmes() -> Int
+    func showItemsByStatus()
+}
+
 final class TableViewHeader: UITableViewHeaderFooterView {
     
     static let identifier = String(describing: TableViewHeader.self)
+    
+    weak var delegate: TableViewHeaderDelegate? {
+        didSet {
+            if let count = delegate?.getNumberOfItmes() {
+                completedLabel.text = "Выполнено — \(count)"
+            }
+            
+            if let showAll = delegate?.isFull {
+                self.showAll = showAll
+            }
+        }
+    }
+    
+    private var showAll = true
     
     private let labelsStackView: UIStackView = {
         let view = UIStackView()
@@ -23,11 +44,10 @@ final class TableViewHeader: UITableViewHeaderFooterView {
         return view
     }()
     
-    private let completedLabel: UILabel = {
+    private lazy var completedLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         
-        label.text = "Выполнено — 5"
         label.font = UIFont.systemFont(ofSize: 13, weight: .regular)
         label.textColor = .lightGray
         
@@ -36,15 +56,15 @@ final class TableViewHeader: UITableViewHeaderFooterView {
         return label
     }()
     
-    private let showButton: UIButton = {
+    private lazy var showButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         
-        button.setTitle("    Показать", for: .normal)
-        
+        button.setTitle("Скрыть", for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .regular)
         button.setTitleColor(.systemBlue, for: .normal)
         button.backgroundColor = .backgroundColor
+        button.addTarget(self, action: #selector(showButtonPressed), for: .touchUpInside)
         
         return button
     }()
@@ -87,4 +107,14 @@ final class TableViewHeader: UITableViewHeaderFooterView {
         ])
     }
     
+    @objc
+    private func showButtonPressed(){
+        if showAll {
+            showButton.setTitle("Показать", for: .normal)
+            delegate?.showItemsByStatus()
+        } else {
+            showButton.setTitle("Скрыть", for: .normal)
+            delegate?.showItemsByStatus()
+        }
+    }
 }

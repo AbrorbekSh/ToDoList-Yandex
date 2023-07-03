@@ -293,6 +293,7 @@ extension ToDoItemListViewController:  UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: TableViewHeader.identifier) as? TableViewHeader
+        header?.delegate = viewModel
         return header
     }
     
