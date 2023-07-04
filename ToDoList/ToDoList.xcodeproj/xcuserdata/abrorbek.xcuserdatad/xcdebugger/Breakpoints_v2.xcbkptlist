@@ -382,8 +382,8 @@
             filePath = "ToDoList/Views/ToDoItemDetails/ToDoItemDetailsViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "383"
-            endingLineNumber = "383"
+            startingLineNumber = "342"
+            endingLineNumber = "342"
             landmarkName = "finishChosingColor(colorHex:)"
             landmarkType = "7">
             <Locations>
@@ -430,8 +430,8 @@
             filePath = "ToDoList/Views/ToDoItemDetails/ToDoItemDetailsViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "389"
-            endingLineNumber = "389"
+            startingLineNumber = "346"
+            endingLineNumber = "346"
             landmarkName = "finishChosingColor(colorHex:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -446,8 +446,8 @@
             filePath = "ToDoList/Views/ToDoItemDetails/ToDoItemDetailsViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "388"
-            endingLineNumber = "388"
+            startingLineNumber = "345"
+            endingLineNumber = "345"
             landmarkName = "finishChosingColor(colorHex:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -462,8 +462,8 @@
             filePath = "ToDoList/Views/ToDoItemDetails/ToDoItemDetailsViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "386"
-            endingLineNumber = "386"
+            startingLineNumber = "344"
+            endingLineNumber = "344"
             landmarkName = "finishChosingColor(colorHex:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -480,8 +480,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "37"
             endingLineNumber = "37"
-            landmarkName = "childDidFinished(coordinator:)"
-            landmarkType = "7">
+            landmarkName = "ToDoItemListCoordinator"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy

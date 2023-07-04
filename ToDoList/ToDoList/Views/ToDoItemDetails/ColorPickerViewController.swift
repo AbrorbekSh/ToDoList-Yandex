@@ -15,6 +15,54 @@ final class ColorPickerViewController: UIViewController {
     
     weak var delegate: ColorPickerViewControllerDelegate?
     
+    
+    private lazy var navBarContainerView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        [
+            leftBarButton,
+            titleLabel,
+            rightBarButton
+        ].forEach { view.addSubview($0) }
+        
+        return view
+    }()
+    
+    private lazy var titleLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+
+        label.font = UIFont.boldSystemFont(ofSize: 17)
+        label.textAlignment = .center
+        label.text = "Цвет"
+        return label
+    }()
+    
+    private lazy var leftBarButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        
+        button.addTarget(self, action: #selector(backPressed), for: .touchUpInside)
+        button.setTitle("Назад", for: .normal)
+        button.setTitleColor(.systemBlue, for: .normal)
+        button.titleLabel?.font = .contentFont
+        
+        return button
+    }()
+    
+    private lazy var rightBarButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        
+        button.addTarget(self, action: #selector(readyPressed), for: .touchUpInside)
+        button.setTitle("Готово", for: .normal)
+        button.setTitleColor(.systemBlue, for: .normal)
+        button.titleLabel?.font = .contentFont
+        
+        return button
+    }()
+    
+    
     var colorPaletteView: UIImageView!
     var selectedColorView: UIView!
     var brightnessSlider: UISlider!
@@ -25,16 +73,22 @@ final class ColorPickerViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setupView()
+    }
+    
+    //MARK: - Setup
+    
+    private func setupView() {
         view.backgroundColor = UIColor(hexString: "#3AFDFF")
         
-        title = "Цвет"
-        
-        let leftItem = UIBarButtonItem(title: "Назад", style: .plain, target: self, action: #selector(backPressed))
-        let rightItem = UIBarButtonItem(title: "Готово", style: .plain, target: self, action: #selector(readyPressed))
-
-        self.navigationItem.leftBarButtonItem = leftItem
-        self.navigationItem.rightBarButtonItem = rightItem
-        
+        setupFrames()
+        updateColorPicker()
+        view.addSubview(colorCodeLabel)
+        view.addSubview(navBarContainerView)
+        setupLayout()
+    }
+    
+    private func setupFrames(){
         // Create color palette view
         
         colorPaletteView = UIImageView(frame: CGRect(x: 100, y: 250, width: 200, height: 200))
@@ -68,9 +122,49 @@ final class ColorPickerViewController: UIViewController {
         colorCodeLabel = UILabel(frame: CGRect(x: 170, y: 160, width: 200, height: 30))
         colorCodeLabel.textAlignment = .center
         colorCodeLabel.textColor = .black
+    }
+    
+    private func setupLayout(){
+        NSLayoutConstraint.activate([
+            navBarContainerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            navBarContainerView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            navBarContainerView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            navBarContainerView.heightAnchor.constraint(equalToConstant: 56)
+        ])
         
-        updateColorPicker()
-        view.addSubview(colorCodeLabel)
+        NSLayoutConstraint.activate([
+            leftBarButton.centerYAnchor.constraint(equalTo: navBarContainerView.centerYAnchor),
+            leftBarButton.leadingAnchor.constraint(
+                equalTo: navBarContainerView.leadingAnchor,
+                constant: 16
+            )
+        ])
+        
+        NSLayoutConstraint.activate([
+            titleLabel.centerXAnchor.constraint(equalTo: navBarContainerView.centerXAnchor),
+            titleLabel.centerYAnchor.constraint(equalTo: navBarContainerView.centerYAnchor)
+        ])
+        
+        NSLayoutConstraint.activate([
+            rightBarButton.centerYAnchor.constraint(equalTo: navBarContainerView.centerYAnchor),
+            rightBarButton.trailingAnchor.constraint(
+                equalTo: navBarContainerView.trailingAnchor,
+                constant: -16
+            )
+        ])
+    }
+    
+    //MARK: - Methods
+    
+    // Update color picker UI
+    func updateColorPicker() {
+        // Update selected color view
+        selectedColorView.backgroundColor = selectedColor
+        
+        // Update color code label
+        let colorComponents = selectedColor.rgbComponents()
+        let colorCode = String(format: "#%02X%02X%02X", Int(colorComponents.red * 255), Int(colorComponents.green * 255), Int(colorComponents.blue * 255))
+        colorCodeLabel.text = colorCode
     }
     
     // Handle pan gesture on the color palette view
@@ -97,26 +191,15 @@ final class ColorPickerViewController: UIViewController {
         updateColorPicker()
     }
     
-    // Update color picker UI
-    func updateColorPicker() {
-        // Update selected color view
-        selectedColorView.backgroundColor = selectedColor
-        
-        // Update color code label
-        let colorComponents = selectedColor.rgbComponents()
-        let colorCode = String(format: "#%02X%02X%02X", Int(colorComponents.red * 255), Int(colorComponents.green * 255), Int(colorComponents.blue * 255))
-        colorCodeLabel.text = colorCode
-    }
-    
     @objc func backPressed() {
-        self.navigationController?.popViewController(animated: true)
+        dismiss(animated: true)
     }
 
     @objc func readyPressed() {
         let colorComponents = selectedColor.rgbComponents()
         let colorCode = String(format: "#%02X%02X%02X", Int(colorComponents.red * 255), Int(colorComponents.green * 255), Int(colorComponents.blue * 255))
         delegate?.finishChosingColor(colorHex: colorCode)
-        self.navigationController?.popViewController(animated: true)
+        dismiss(animated: true)
     }
 }
 
