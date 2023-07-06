@@ -22,7 +22,7 @@ final class ToDoItemDetailsViewModel {
     private var id: String?
     private var text: String?
     private var priority: Priority = .basic
-    private var deadline: Date?
+    private var deadline: Date? = nil
     private var hexColor: String = "#000000"
     
     private var isCompleted: Bool = false

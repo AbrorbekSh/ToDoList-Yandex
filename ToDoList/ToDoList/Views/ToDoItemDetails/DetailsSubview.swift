@@ -347,7 +347,7 @@ final class DetailsSubview: UIView {
         case 0:
             viewModel.priorityDidChange(priority: .low)
         case 2:
-            viewModel.priorityDidChange(priority: .high)
+            viewModel.priorityDidChange(priority: .important)
         default:
             viewModel.priorityDidChange(priority: .basic)
         }

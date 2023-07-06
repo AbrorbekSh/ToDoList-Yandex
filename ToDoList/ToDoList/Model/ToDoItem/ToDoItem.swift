@@ -7,6 +7,12 @@
 
 import Foundation
 
+enum Priority: String, Codable {
+    case low
+    case basic
+    case important
+}
+
 public struct ToDoItem: Equatable {
     let id: String
     let text: String
