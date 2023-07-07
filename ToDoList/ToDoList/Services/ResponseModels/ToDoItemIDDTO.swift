@@ -1,5 +1,5 @@
 //
-//  ToDoListDTO.swift
+//  ToDoItemIDDTO.swift
 //  ToDoList
 //
 //  Created by Аброрбек on 06.07.2023.
@@ -7,20 +7,20 @@
 
 import Foundation
 
-struct ToDoListDTO: Codable {
+struct ToDoItemIDDTO: Codable {
     let status: String?
-    let list: [ToDoItemDTO]
+    let element: ToDoItemDTO
     let revision: Int?
     
-    init(status: String = "OK", list: [ToDoItemDTO], revision: Int) {
+    init(status: String, element: ToDoItemDTO, revision: Int) {
         self.status = status
-        self.list = list
+        self.element = element
         self.revision = revision
     }
     
     enum CodingKeys: String, CodingKey {
         case status
-        case list
+        case element
         case revision
     }
 }

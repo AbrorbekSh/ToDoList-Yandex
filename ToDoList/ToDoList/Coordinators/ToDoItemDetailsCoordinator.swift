@@ -13,17 +13,19 @@ final class ToDoItemDetailsCoordinator: Coordinator {
     
     private let navigationController: UINavigationController
     private let fileCashe: FileCache
+    private let networkingService: NetworkingService
     weak var parentCoordinator: ToDoItemListCoordinator?
     private let item: ToDoItem?
     
-    init(navigationController: UINavigationController, fileCashe: FileCache, item: ToDoItem? = nil){
+    init(navigationController: UINavigationController, fileCashe: FileCache, item: ToDoItem? = nil, networkingService: NetworkingService){
         self.navigationController = navigationController
         self.fileCashe = fileCashe
         self.item = item
+        self.networkingService = networkingService
     }
     
     func start() {
-        let toDoItemDetailsViewModel = ToDoItemDetailsViewModel(fileCashe: fileCashe, item: item)
+        let toDoItemDetailsViewModel = ToDoItemDetailsViewModel(fileCashe: fileCashe, item: item, networkingService: networkingService)
         toDoItemDetailsViewModel.delegate = parentCoordinator?.toDoItemListViewModel
         let toDoItemDetailsViewController = ToDoItemDetailsViewController(viewModel: toDoItemDetailsViewModel)
         toDoItemDetailsViewModel.coordinator = self

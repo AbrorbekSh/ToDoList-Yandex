@@ -13,12 +13,14 @@ final class ToDoItemListCoordinator: Coordinator {
     
     private let navigationController: UINavigationController
     private let fileCache: FileCache
+    private let networkingService: NetworkingService
     let toDoItemListViewModel: ToDoItemListViewModel
     
-    init(navigationController: UINavigationController, fileCache: FileCache){
+    init(navigationController: UINavigationController, fileCache: FileCache, networkingService: NetworkingService){
         self.navigationController = navigationController
         self.fileCache = fileCache
-        self.toDoItemListViewModel = ToDoItemListViewModel(fileCache: fileCache)
+        self.toDoItemListViewModel = ToDoItemListViewModel(fileCache: fileCache, networkingService: networkingService)
+        self.networkingService = networkingService
     }
     
     func start() {
@@ -28,7 +30,7 @@ final class ToDoItemListCoordinator: Coordinator {
     }
     
     func startToDoItemDetails(with item: ToDoItem?){
-        let toDoItemDetailsCoordinator = ToDoItemDetailsCoordinator(navigationController: navigationController, fileCashe: fileCache, item: item)
+        let toDoItemDetailsCoordinator = ToDoItemDetailsCoordinator(navigationController: navigationController, fileCashe: fileCache, item: item, networkingService: networkingService)
         toDoItemDetailsCoordinator.parentCoordinator = self
         childCoordinators.append(toDoItemDetailsCoordinator)
         toDoItemDetailsCoordinator.start()

@@ -40,6 +40,7 @@
 		21F8597D2A5690340093E9AD /* ToDoListDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F8597C2A5690340093E9AD /* ToDoListDTO.swift */; };
 		21F859802A5692950093E9AD /* ToDoItemDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F8597F2A5692950093E9AD /* ToDoItemDTO.swift */; };
 		21F859822A56B9850093E9AD /* ToDoItem+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F859812A56B9850093E9AD /* ToDoItem+Extension.swift */; };
+		21F859842A56F8EF0093E9AD /* ToDoItemIDDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F859832A56F8EF0093E9AD /* ToDoItemIDDTO.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -89,6 +90,7 @@
 		21F8597C2A5690340093E9AD /* ToDoListDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoListDTO.swift; sourceTree = "<group>"; };
 		21F8597F2A5692950093E9AD /* ToDoItemDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoItemDTO.swift; sourceTree = "<group>"; };
 		21F859812A56B9850093E9AD /* ToDoItem+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ToDoItem+Extension.swift"; sourceTree = "<group>"; };
+		21F859832A56F8EF0093E9AD /* ToDoItemIDDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoItemIDDTO.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -275,6 +277,7 @@
 			children = (
 				21F8597C2A5690340093E9AD /* ToDoListDTO.swift */,
 				21F8597F2A5692950093E9AD /* ToDoItemDTO.swift */,
+				21F859832A56F8EF0093E9AD /* ToDoItemIDDTO.swift */,
 			);
 			path = ResponseModels;
 			sourceTree = "<group>";
@@ -421,6 +424,7 @@
 				21D750182A3A205200F8C4F4 /* ParseCSV.swift in Sources */,
 				21154E4E2A34569D00129A50 /* ToDoItemDetailsViewController.swift in Sources */,
 				212B20BE2A4C5EC900E47714 /* NewToDoItemCell.swift in Sources */,
+				21F859842A56F8EF0093E9AD /* ToDoItemIDDTO.swift in Sources */,
 				21154E4A2A34569D00129A50 /* AppDelegate.swift in Sources */,
 				212B20C72A4DA34400E47714 /* ToDoItemListCoordinator.swift in Sources */,
 				212B20C22A4D52E400E47714 /* TableViewHeader.swift in Sources */,

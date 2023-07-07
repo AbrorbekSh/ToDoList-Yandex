@@ -25,8 +25,9 @@ final class AppCoordinator: Coordinator {
     func start() {
         let navigationController = UINavigationController()
         let fileCache = FileCache()
+        let netwokringService = DefaultNetworkingService()
         
-        let toDoItemsListCoordinator = ToDoItemListCoordinator(navigationController: navigationController, fileCache: fileCache)
+        let toDoItemsListCoordinator = ToDoItemListCoordinator(navigationController: navigationController, fileCache: fileCache, networkingService: netwokringService)
         childCoordinators.append(toDoItemsListCoordinator)
         toDoItemsListCoordinator.start()
         

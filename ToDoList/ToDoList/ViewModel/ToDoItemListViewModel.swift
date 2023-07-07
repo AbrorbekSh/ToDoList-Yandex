@@ -10,6 +10,7 @@ import Foundation
 final class ToDoItemListViewModel {
     
     private let fileCache: FileCache
+    private let networkingService: NetworkingService
     private var items: [ToDoItem] = []
     private var filteredItems: [ToDoItem] = []
     private var willShowAll: Bool = true
@@ -21,20 +22,43 @@ final class ToDoItemListViewModel {
     
     let title = "Мои дела"
     
-    init(fileCache: FileCache) {
+    init(fileCache: FileCache, networkingService: NetworkingService) {
         self.fileCache = fileCache
+        self.networkingService = networkingService
     }
     
     func loadView() {
-        try? fileCache.load(from: "directory")
+        networkingService.getToDoItemList { [weak self] result in
+            guard let strongSelf = self else {
+                return
+            }
+            switch result {
+            case .success(let items):
+                strongSelf.items = items
+            case .failure:
+                print("Something went wrong")
+            }
+        }
+//        try? fileCache.load(from: "directory")
     }
     
     func viewDidLoad() {
-        updateItems()
+//        updateItems()
     }
     
     func viewWillDisappear() {
-        try? fileCache.save(to: "directory")
+        networkingService.updateToDoItemList(with: self.items) { [weak self] result in
+            guard let strongSelf = self else {
+                return
+            }
+            switch result {
+            case .success(let items):
+                strongSelf.items = items
+            case .failure:
+                print("Something went wrong")
+            }
+        }
+//        try? fileCache.save(to: "directory")
     }
     
     func openDetailsView(at indexPath: IndexPath) {
@@ -42,7 +66,20 @@ final class ToDoItemListViewModel {
     }
     
     func deleteItem(at indexPath: IndexPath) {
-        fileCache.delete(id: filteredItems[indexPath.row].id)
+        networkingService.deleteToDoItem(id: filteredItems[indexPath.row].id) { [weak self] result in
+            guard let strongSelf = self else {
+                return
+            }
+            switch result {
+            case .success(let item):
+                strongSelf.items.removeAll { itemD in
+                    itemD.id == item.id
+                }
+            case .failure:
+                print("Something went wrong")
+            }
+        }
+//        fileCache.delete(id: filteredItems[indexPath.row].id)
         filteredItems.remove(at: indexPath.row)
         updateItems()
         reloadTableView?()
@@ -62,7 +99,20 @@ final class ToDoItemListViewModel {
                                     createdAt: item.createdAt,
                                     editedAt: item.editedAt,
                                     color: item.color)
-        fileCache.add(todoItem: updatedItem)
+        networkingService.editToDoItem(item: updatedItem) { [weak self] result in
+            guard let strongSelf = self else {
+                return
+            }
+            switch result {
+            case .success(let item):
+                if let row = strongSelf.items.firstIndex(where: {$0.id == item.id}) {
+                    strongSelf.items[row] = updatedItem
+                }
+            case .failure:
+                print("Something went wrong")
+            }
+        }
+//        fileCache.add(todoItem: updatedItem)
         filteredItems[indexPath.row] = updatedItem
         filterItems()
         updateItems()
@@ -84,11 +134,24 @@ final class ToDoItemListViewModel {
     }
     
     func updateItems(){
-        items = fileCache.items.map({ task in
-            return task.value
-        }).sorted(by: { firstItem, secondItem in
-            firstItem.createdAt > secondItem.createdAt
-        })
+        networkingService.getToDoItemList { [weak self] result in
+            guard let strongSelf = self else {
+                return
+            }
+            switch result {
+            case .success(let items):
+                strongSelf.items = items
+            case .failure:
+                print("Something went wrong")
+            }
+        }
+        
+        
+//        items = fileCache.items.map({ task in
+//            return task.value
+//        }).sorted(by: { firstItem, secondItem in
+//            firstItem.createdAt > secondItem.createdAt
+//        })
         filterItems() 
     }
     

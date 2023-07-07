@@ -35,7 +35,7 @@ struct ToDoItemDTO: Codable {
         case id
         case text
         case importance
-        case deadline = "deadline"
+        case deadline
         case isDone = "done"
         case createdAt = "created_at"
         case changedAt = "changed_at"
