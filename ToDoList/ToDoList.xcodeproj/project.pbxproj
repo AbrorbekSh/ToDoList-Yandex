@@ -37,6 +37,7 @@
 		21D750182A3A205200F8C4F4 /* ParseCSV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21D750172A3A205200F8C4F4 /* ParseCSV.swift */; };
 		21D750202A3B777F00F8C4F4 /* ToDoListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21D7501F2A3B777F00F8C4F4 /* ToDoListTests.swift */; };
 		21F859742A53CA3E0093E9AD /* DetailsSubview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F859732A53CA3E0093E9AD /* DetailsSubview.swift */; };
+		21F859782A546ED40093E9AD /* URLSession+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F859772A546ED40093E9AD /* URLSession+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -83,6 +84,7 @@
 		21D7501D2A3B777F00F8C4F4 /* ToDoListTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ToDoListTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		21D7501F2A3B777F00F8C4F4 /* ToDoListTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoListTests.swift; sourceTree = "<group>"; };
 		21F859732A53CA3E0093E9AD /* DetailsSubview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsSubview.swift; sourceTree = "<group>"; };
+		21F859772A546ED40093E9AD /* URLSession+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -223,6 +225,7 @@
 				21CAA0312A41E1BB00A093D2 /* UIViewController+Extension.swift */,
 				216E53672A441EC700D68D86 /* Date+Extension.swift */,
 				212B20BB2A49C1D500E47714 /* NSObject+Extension.swift */,
+				21F859772A546ED40093E9AD /* URLSession+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -400,6 +403,7 @@
 				212B20C22A4D52E400E47714 /* TableViewHeader.swift in Sources */,
 				212B20C42A4D9D7700E47714 /* AppCoordinator.swift in Sources */,
 				21154E612A345A0200129A50 /* ToDoItem.swift in Sources */,
+				21F859782A546ED40093E9AD /* URLSession+Extension.swift in Sources */,
 				216E53682A441EC700D68D86 /* Date+Extension.swift in Sources */,
 				21154E632A349A0100129A50 /* FileCache.swift in Sources */,
 				21F859742A53CA3E0093E9AD /* DetailsSubview.swift in Sources */,
