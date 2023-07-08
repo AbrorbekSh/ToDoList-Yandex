@@ -64,7 +64,7 @@ extension ToDoItem {
             priority = .low
             
         case "high":
-            priority = .high
+            priority = .important
             
         default:
             priority = .basic

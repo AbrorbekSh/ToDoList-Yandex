@@ -74,9 +74,9 @@ final class ToDoItemListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setupViewModel()
         viewModel.viewDidLoad()
         setupView()
-        setupViewModel()
         setupLayout()
     }
     

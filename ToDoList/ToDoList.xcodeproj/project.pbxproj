@@ -32,12 +32,16 @@
 		21CAA0392A42E1AA00A093D2 /* UIColor+Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21CAA0382A42E1AA00A093D2 /* UIColor+Constants.swift */; };
 		21CAA03C2A42E2A700A093D2 /* UIFont+Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21CAA03B2A42E2A700A093D2 /* UIFont+Constants.swift */; };
 		21CAA03E2A43066D00A093D2 /* UIImage+Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21CAA03D2A43066D00A093D2 /* UIImage+Constants.swift */; };
-		21D750142A358A9900F8C4F4 /* Priority.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21D750132A358A9900F8C4F4 /* Priority.swift */; };
 		21D750162A35970D00F8C4F4 /* ParseJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21D750152A35970D00F8C4F4 /* ParseJSON.swift */; };
 		21D750182A3A205200F8C4F4 /* ParseCSV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21D750172A3A205200F8C4F4 /* ParseCSV.swift */; };
 		21D750202A3B777F00F8C4F4 /* ToDoListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21D7501F2A3B777F00F8C4F4 /* ToDoListTests.swift */; };
 		21F859742A53CA3E0093E9AD /* DetailsSubview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F859732A53CA3E0093E9AD /* DetailsSubview.swift */; };
-		21F859782A546ED40093E9AD /* URLSession+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F859772A546ED40093E9AD /* URLSession+Extension.swift */; };
+		21F8597B2A55E6570093E9AD /* NetworkingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F8597A2A55E6570093E9AD /* NetworkingService.swift */; };
+		21F8597D2A5690340093E9AD /* ToDoListDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F8597C2A5690340093E9AD /* ToDoListDTO.swift */; };
+		21F859802A5692950093E9AD /* ToDoItemDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F8597F2A5692950093E9AD /* ToDoItemDTO.swift */; };
+		21F859822A56B9850093E9AD /* ToDoItem+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F859812A56B9850093E9AD /* ToDoItem+Extension.swift */; };
+		21F859842A56F8EF0093E9AD /* ToDoItemIDDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F859832A56F8EF0093E9AD /* ToDoItemIDDTO.swift */; };
+		21F859862A591C540093E9AD /* ElementDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F859852A591C540093E9AD /* ElementDTO.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -78,13 +82,17 @@
 		21CAA0382A42E1AA00A093D2 /* UIColor+Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Constants.swift"; sourceTree = "<group>"; };
 		21CAA03B2A42E2A700A093D2 /* UIFont+Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Constants.swift"; sourceTree = "<group>"; };
 		21CAA03D2A43066D00A093D2 /* UIImage+Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Constants.swift"; sourceTree = "<group>"; };
-		21D750132A358A9900F8C4F4 /* Priority.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Priority.swift; sourceTree = "<group>"; };
 		21D750152A35970D00F8C4F4 /* ParseJSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseJSON.swift; sourceTree = "<group>"; };
 		21D750172A3A205200F8C4F4 /* ParseCSV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseCSV.swift; sourceTree = "<group>"; };
 		21D7501D2A3B777F00F8C4F4 /* ToDoListTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ToDoListTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		21D7501F2A3B777F00F8C4F4 /* ToDoListTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoListTests.swift; sourceTree = "<group>"; };
 		21F859732A53CA3E0093E9AD /* DetailsSubview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsSubview.swift; sourceTree = "<group>"; };
-		21F859772A546ED40093E9AD /* URLSession+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+Extension.swift"; sourceTree = "<group>"; };
+		21F8597A2A55E6570093E9AD /* NetworkingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingService.swift; sourceTree = "<group>"; };
+		21F8597C2A5690340093E9AD /* ToDoListDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoListDTO.swift; sourceTree = "<group>"; };
+		21F8597F2A5692950093E9AD /* ToDoItemDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoItemDTO.swift; sourceTree = "<group>"; };
+		21F859812A56B9850093E9AD /* ToDoItem+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ToDoItem+Extension.swift"; sourceTree = "<group>"; };
+		21F859832A56F8EF0093E9AD /* ToDoItemIDDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoItemIDDTO.swift; sourceTree = "<group>"; };
+		21F859852A591C540093E9AD /* ElementDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElementDTO.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,8 +139,7 @@
 				21F859762A53EAE90093E9AD /* Model */,
 				212B20C82A4DA3DE00E47714 /* Views */,
 				212B20C92A4DA6B800E47714 /* ViewModel */,
-				21CAA02E2A41D9E600A093D2 /* Components */,
-				21CAA03F2A43067300A093D2 /* Extensions */,
+				21F859792A55E61E0093E9AD /* Services */,
 				21154E5E2A3457BD00129A50 /* Resources */,
 			);
 			path = ToDoList;
@@ -150,7 +157,8 @@
 		21154E5E2A3457BD00129A50 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				21154E622A349A0100129A50 /* FileCache.swift */,
+				21CAA02E2A41D9E600A093D2 /* Components */,
+				21CAA03F2A43067300A093D2 /* Extensions */,
 				21154E522A34569E00129A50 /* Assets.xcassets */,
 				21154E542A34569E00129A50 /* LaunchScreen.storyboard */,
 				21154E572A34569E00129A50 /* Info.plist */,
@@ -198,9 +206,9 @@
 			isa = PBXGroup;
 			children = (
 				21154E602A345A0200129A50 /* ToDoItem.swift */,
+				21F859812A56B9850093E9AD /* ToDoItem+Extension.swift */,
 				21D750152A35970D00F8C4F4 /* ParseJSON.swift */,
 				21D750172A3A205200F8C4F4 /* ParseCSV.swift */,
-				21D750132A358A9900F8C4F4 /* Priority.swift */,
 			);
 			path = ToDoItem;
 			sourceTree = "<group>";
@@ -225,7 +233,6 @@
 				21CAA0312A41E1BB00A093D2 /* UIViewController+Extension.swift */,
 				216E53672A441EC700D68D86 /* Date+Extension.swift */,
 				212B20BB2A49C1D500E47714 /* NSObject+Extension.swift */,
-				21F859772A546ED40093E9AD /* URLSession+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -255,6 +262,27 @@
 				21CAA0332A42E08F00A093D2 /* ToDoItem */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		21F859792A55E61E0093E9AD /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				21F8597E2A56922C0093E9AD /* ResponseModels */,
+				21154E622A349A0100129A50 /* FileCache.swift */,
+				21F8597A2A55E6570093E9AD /* NetworkingService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		21F8597E2A56922C0093E9AD /* ResponseModels */ = {
+			isa = PBXGroup;
+			children = (
+				21F8597C2A5690340093E9AD /* ToDoListDTO.swift */,
+				21F8597F2A5692950093E9AD /* ToDoItemDTO.swift */,
+				21F859852A591C540093E9AD /* ElementDTO.swift */,
+				21F859832A56F8EF0093E9AD /* ToDoItemIDDTO.swift */,
+			);
+			path = ResponseModels;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -389,6 +417,7 @@
 			files = (
 				21CAA02D2A4184DA00A093D2 /* UIColor+Extesnion.swift in Sources */,
 				216E536A2A44ADC500D68D86 /* ColorPickerViewController.swift in Sources */,
+				21F8597D2A5690340093E9AD /* ToDoListDTO.swift in Sources */,
 				21CAA03C2A42E2A700A093D2 /* UIFont+Constants.swift in Sources */,
 				212B20CF2A4DB45800E47714 /* ToDoItemDetailsViewModel.swift in Sources */,
 				21CAA0322A41E1BB00A093D2 /* UIViewController+Extension.swift in Sources */,
@@ -398,22 +427,25 @@
 				21D750182A3A205200F8C4F4 /* ParseCSV.swift in Sources */,
 				21154E4E2A34569D00129A50 /* ToDoItemDetailsViewController.swift in Sources */,
 				212B20BE2A4C5EC900E47714 /* NewToDoItemCell.swift in Sources */,
+				21F859842A56F8EF0093E9AD /* ToDoItemIDDTO.swift in Sources */,
 				21154E4A2A34569D00129A50 /* AppDelegate.swift in Sources */,
 				212B20C72A4DA34400E47714 /* ToDoItemListCoordinator.swift in Sources */,
 				212B20C22A4D52E400E47714 /* TableViewHeader.swift in Sources */,
 				212B20C42A4D9D7700E47714 /* AppCoordinator.swift in Sources */,
 				21154E612A345A0200129A50 /* ToDoItem.swift in Sources */,
-				21F859782A546ED40093E9AD /* URLSession+Extension.swift in Sources */,
 				216E53682A441EC700D68D86 /* Date+Extension.swift in Sources */,
 				21154E632A349A0100129A50 /* FileCache.swift in Sources */,
 				21F859742A53CA3E0093E9AD /* DetailsSubview.swift in Sources */,
+				21F859802A5692950093E9AD /* ToDoItemDTO.swift in Sources */,
+				21F8597B2A55E6570093E9AD /* NetworkingService.swift in Sources */,
 				21CAA0302A41D9FF00A093D2 /* CustomTextView.swift in Sources */,
 				21D750162A35970D00F8C4F4 /* ParseJSON.swift in Sources */,
 				21154E4C2A34569D00129A50 /* SceneDelegate.swift in Sources */,
 				212B20B82A499F4E00E47714 /* ToDoItemListViewController.swift in Sources */,
 				212B20CD2A4DA87000E47714 /* ToDoItemDetailsCoordinator.swift in Sources */,
+				21F859862A591C540093E9AD /* ElementDTO.swift in Sources */,
 				21CAA03E2A43066D00A093D2 /* UIImage+Constants.swift in Sources */,
-				21D750142A358A9900F8C4F4 /* Priority.swift in Sources */,
+				21F859822A56B9850093E9AD /* ToDoItem+Extension.swift in Sources */,
 				212B20BC2A49C1D500E47714 /* NSObject+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

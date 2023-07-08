@@ -172,7 +172,7 @@ final class ToDoItemDetailsViewController: UIViewController {
             self.textView.text = toDoItem.text
             
             switch toDoItem.priority {
-            case .high:
+            case .important:
                 self.detailsSubview.segmentationControl.selectedSegmentIndex = 2
             case .low:
                 self.detailsSubview.segmentationControl.selectedSegmentIndex = 0

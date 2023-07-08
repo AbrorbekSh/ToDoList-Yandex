@@ -122,7 +122,7 @@ final class ToDoItemListCell: UITableViewCell {
     
     func update(toDoItem: ToDoItem) {
         switch toDoItem.priority {
-        case .high:
+        case .important:
             descriptionLabel.text = "‼️" + toDoItem.text
         default:
             descriptionLabel.text = toDoItem.text
@@ -170,7 +170,7 @@ final class ToDoItemListCell: UITableViewCell {
             )
             
             switch toDoItem.priority {
-            case .high:
+            case .important:
                 doneImageView.tintColor = .red
             default:
                 doneImageView.tintColor = .lightGray

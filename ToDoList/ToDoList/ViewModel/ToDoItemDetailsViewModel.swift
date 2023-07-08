@@ -14,6 +14,7 @@ protocol ItemDetailsDelegate: AnyObject {
 final class ToDoItemDetailsViewModel {
     
     private let fileCashe: FileCache
+    private let netwrokingService: NetworkingService
     weak var delegate: (ItemDetailsDelegate & ToDoItemListViewModel)?
     private let item: ToDoItem?
     var uploadData: ((ToDoItem) -> Void)?
@@ -22,7 +23,7 @@ final class ToDoItemDetailsViewModel {
     private var id: String?
     private var text: String?
     private var priority: Priority = .basic
-    private var deadline: Date?
+    private var deadline: Date? = nil
     private var hexColor: String = "#000000"
     
     private var isCompleted: Bool = false
@@ -30,9 +31,10 @@ final class ToDoItemDetailsViewModel {
     
     let title = "Дело"
     
-    init(fileCashe: FileCache, item: ToDoItem? = nil) {
+    init(fileCashe: FileCache, item: ToDoItem? = nil, networkingService: NetworkingService) {
         self.fileCashe = fileCashe
         self.item = item
+        self.netwrokingService = networkingService
     }
     
     func viewWillAppear(){
@@ -123,8 +125,19 @@ final class ToDoItemDetailsViewModel {
                 color: hexColor
             )
         }
-        fileCashe.add(todoItem: newItem)
-        delegate?.changesAppeared()
+        
+        netwrokingService.addToDoItem(item: newItem) { result in
+//            guard let strongSelf = self else {
+//                return
+//            }
+            switch result {
+            case .success(let _):
+                self.delegate?.changesAppeared()
+            case .failure:
+                print("Something went wrong")
+            }
+        }
+//        fileCashe.add(todoItem: newItem)
         coordinator?.finish()
     }
 }
