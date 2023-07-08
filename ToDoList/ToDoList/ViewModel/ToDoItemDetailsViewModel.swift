@@ -131,14 +131,13 @@ final class ToDoItemDetailsViewModel {
 //                return
 //            }
             switch result {
-            case .success(let item):
-                print("Da")
+            case .success(let _):
+                self.delegate?.changesAppeared()
             case .failure:
                 print("Something went wrong")
             }
         }
 //        fileCashe.add(todoItem: newItem)
-        delegate?.changesAppeared()
         coordinator?.finish()
     }
 }

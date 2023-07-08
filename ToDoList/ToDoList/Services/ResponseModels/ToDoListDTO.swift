@@ -12,15 +12,19 @@ struct ToDoListDTO: Codable {
     let list: [ToDoItemDTO]
     let revision: Int?
     
-    init(status: String = "OK", list: [ToDoItemDTO], revision: Int) {
-        self.status = status
-        self.list = list
-        self.revision = revision
-    }
-    
     enum CodingKeys: String, CodingKey {
         case status
         case list
         case revision
+    }
+    
+    init(
+        list: [ToDoItemDTO],
+        status: String? = nil,
+        revision: Int? = nil
+    ) {
+        self.status = status
+        self.list = list
+        self.revision = revision
     }
 }

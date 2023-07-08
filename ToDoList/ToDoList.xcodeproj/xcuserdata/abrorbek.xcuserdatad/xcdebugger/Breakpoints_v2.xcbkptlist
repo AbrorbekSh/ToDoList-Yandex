@@ -62,8 +62,8 @@
             filePath = "ToDoList/ViewModel/ToDoItemListViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "61"
-            endingLineNumber = "61"
+            startingLineNumber = "62"
+            endingLineNumber = "62"
             landmarkName = "viewWillDisappear()"
             landmarkType = "7">
          </BreakpointContent>
@@ -87,22 +87,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "43500676-7E12-47C7-862F-4C919661D91A"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ToDoList/ViewModel/ToDoItemListViewModel.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "46"
-            endingLineNumber = "46"
-            landmarkName = "viewDidLoad()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "9FE9F509-A966-41C9-830D-08B43BF50693"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -112,8 +96,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "140"
             endingLineNumber = "140"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            landmarkName = "savePressed()"
+            landmarkType = "7">
             <Locations>
                <Location
                   uuid = "9FE9F509-A966-41C9-830D-08B43BF50693 - fa0e29bb3883adc1"
@@ -158,8 +142,8 @@
             filePath = "ToDoList/ViewModel/ToDoItemListViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "171"
-            endingLineNumber = "171"
+            startingLineNumber = "181"
+            endingLineNumber = "181"
             landmarkName = "changesAppeared()"
             landmarkType = "7">
          </BreakpointContent>
@@ -174,8 +158,8 @@
             filePath = "ToDoList/ViewModel/ToDoItemListViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "169"
-            endingLineNumber = "169"
+            startingLineNumber = "179"
+            endingLineNumber = "179"
             landmarkName = "changesAppeared()"
             landmarkType = "7">
          </BreakpointContent>
@@ -215,54 +199,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "3ED3E927-58AD-4D3F-A78B-E9DA6016FA4A"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ToDoList/ViewModel/ToDoItemDetailsViewModel.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "141"
-            endingLineNumber = "141"
-            landmarkName = "unknown"
-            landmarkType = "0">
-            <Locations>
-               <Location
-                  uuid = "3ED3E927-58AD-4D3F-A78B-E9DA6016FA4A - fa0e29bb3883adee"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "ToDoList.ToDoItemDetailsViewModel.savePressed() -&gt; ()"
-                  moduleName = "ToDoList"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/abrorbek/Desktop/IOS/ToDoList-Yandex-School/ToDoList/ToDoList/ViewModel/ToDoItemDetailsViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "121"
-                  endingLineNumber = "121"
-                  offsetFromSymbolStart = "2268">
-               </Location>
-               <Location
-                  uuid = "3ED3E927-58AD-4D3F-A78B-E9DA6016FA4A - fa0e29bb3883adee"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "ToDoList.ToDoItemDetailsViewModel.savePressed() -&gt; ()"
-                  moduleName = "ToDoList"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/abrorbek/Desktop/IOS/ToDoList-Yandex-School/ToDoList/ToDoList/ViewModel/ToDoItemDetailsViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "121"
-                  endingLineNumber = "121"
-                  offsetFromSymbolStart = "2160">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "00646191-D668-407A-AF9E-F9E437F102F2"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -270,8 +206,8 @@
             filePath = "ToDoList/ViewModel/ToDoItemListViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "82"
-            endingLineNumber = "82"
+            startingLineNumber = "90"
+            endingLineNumber = "90"
             landmarkName = "deleteItem(at:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -535,77 +471,47 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "538AB976-DB19-4AFE-B49B-86156C807FB5"
+            uuid = "0589B86D-94E5-4A21-833E-82DC6DC6D9CC"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ToDoList/Services/NetworkingService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "241"
-            endingLineNumber = "241"
-            landmarkName = "addToDoItem(item:completion:)"
-            landmarkType = "7">
+            startingLineNumber = "594"
+            endingLineNumber = "594"
+            landmarkName = "unknown"
+            landmarkType = "0">
             <Locations>
                <Location
-                  uuid = "538AB976-DB19-4AFE-B49B-86156C807FB5 - 84e51f48700a8c68"
+                  uuid = "0589B86D-94E5-4A21-833E-82DC6DC6D9CC - 8598d723ed92b03d"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "closure #1 () -&gt; () in ToDoList.DefaultNetworkingService.getToDoItem(id: Swift.String, completion: (Swift.Result&lt;ToDoList.ToDoItem, Swift.Error&gt;) -&gt; ()) -&gt; ()"
+                  symbolName = "closure #1 () -&gt; () in ToDoList.DefaultNetworkingService.updateToDoItemList(with: Swift.Array&lt;ToDoList.ToDoItem&gt;, completion: (Swift.Result&lt;Swift.Array&lt;ToDoList.ToDoItem&gt;, Swift.Error&gt;) -&gt; ()) -&gt; ()"
                   moduleName = "ToDoList"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/abrorbek/Desktop/IOS/ToDoList-Yandex-School-Shanazarov/ToDoList/ToDoList/Services/NetworkingService.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "243"
-                  endingLineNumber = "243"
-                  offsetFromSymbolStart = "1300">
+                  startingLineNumber = "140"
+                  endingLineNumber = "140"
+                  offsetFromSymbolStart = "2104">
                </Location>
                <Location
-                  uuid = "538AB976-DB19-4AFE-B49B-86156C807FB5 - 9e3668174ba99c61"
+                  uuid = "0589B86D-94E5-4A21-833E-82DC6DC6D9CC - f1aacd585b4726f9"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "closure #2 @Sendable (Swift.Optional&lt;Foundation.Data&gt;, Swift.Optional&lt;__C.NSURLResponse&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in closure #1 () -&gt; () in ToDoList.DefaultNetworkingService.addToDoItem(item: ToDoList.ToDoItem, completion: (Swift.Result&lt;ToDoList.ToDoItem, Swift.Error&gt;) -&gt; ()) -&gt; ()"
+                  symbolName = "closure #3 @Sendable (Swift.Optional&lt;Foundation.Data&gt;, Swift.Optional&lt;__C.NSURLResponse&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in closure #1 () -&gt; () in ToDoList.DefaultNetworkingService.updateToDoItemList(with: Swift.Array&lt;ToDoList.ToDoItem&gt;, completion: (Swift.Result&lt;Swift.Array&lt;ToDoList.ToDoItem&gt;, Swift.Error&gt;) -&gt; ()) -&gt; ()"
                   moduleName = "ToDoList"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/abrorbek/Desktop/IOS/ToDoList-Yandex-School-Shanazarov/ToDoList/ToDoList/Services/NetworkingService.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "242"
-                  endingLineNumber = "242"
-                  offsetFromSymbolStart = "2440">
-               </Location>
-               <Location
-                  uuid = "538AB976-DB19-4AFE-B49B-86156C807FB5 - 1d0183a76a6923ba"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 @Swift.MainActor () -&gt; () in closure #2 @Sendable (Swift.Optional&lt;Foundation.Data&gt;, Swift.Optional&lt;__C.NSURLResponse&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in closure #1 () -&gt; () in ToDoList.DefaultNetworkingService.addToDoItem(item: ToDoList.ToDoItem, completion: (Swift.Result&lt;ToDoList.ToDoItem, Swift.Error&gt;) -&gt; ()) -&gt; ()"
-                  moduleName = "ToDoList"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/abrorbek/Desktop/IOS/ToDoList-Yandex-School-Shanazarov/ToDoList/ToDoList/Services/NetworkingService.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "243"
-                  endingLineNumber = "243"
-                  offsetFromSymbolStart = "108">
-               </Location>
-               <Location
-                  uuid = "538AB976-DB19-4AFE-B49B-86156C807FB5 - 9e3668174ba99c61"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #2 @Sendable (Swift.Optional&lt;Foundation.Data&gt;, Swift.Optional&lt;__C.NSURLResponse&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in closure #1 () -&gt; () in ToDoList.DefaultNetworkingService.addToDoItem(item: ToDoList.ToDoItem, completion: (Swift.Result&lt;ToDoList.ToDoItem, Swift.Error&gt;) -&gt; ()) -&gt; ()"
-                  moduleName = "ToDoList"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/abrorbek/Desktop/IOS/ToDoList-Yandex-School-Shanazarov/ToDoList/ToDoList/Services/NetworkingService.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "242"
-                  endingLineNumber = "242"
-                  offsetFromSymbolStart = "2412">
+                  startingLineNumber = "142"
+                  endingLineNumber = "142"
+                  offsetFromSymbolStart = "332">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -613,47 +519,47 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "70C88A32-BAB6-4E50-A7E3-3ABDF6D567C6"
+            uuid = "EAB2DD17-F63C-4101-A964-5842C7AA2B5C"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ToDoList/Services/NetworkingService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "238"
-            endingLineNumber = "238"
-            landmarkName = "addToDoItem(item:completion:)"
-            landmarkType = "7">
+            startingLineNumber = "688"
+            endingLineNumber = "688"
+            landmarkName = "unknown"
+            landmarkType = "0">
             <Locations>
                <Location
-                  uuid = "70C88A32-BAB6-4E50-A7E3-3ABDF6D567C6 - 9e3668174ba99ffd"
+                  uuid = "EAB2DD17-F63C-4101-A964-5842C7AA2B5C - 6d742492d00e678"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "closure #2 @Sendable (Swift.Optional&lt;Foundation.Data&gt;, Swift.Optional&lt;__C.NSURLResponse&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in closure #1 () -&gt; () in ToDoList.DefaultNetworkingService.addToDoItem(item: ToDoList.ToDoItem, completion: (Swift.Result&lt;ToDoList.ToDoItem, Swift.Error&gt;) -&gt; ()) -&gt; ()"
+                  symbolName = "closure #1 () -&gt; () in ToDoList.DefaultNetworkingService.addToDoItem(item: ToDoList.ToDoItem, completion: (Swift.Result&lt;ToDoList.ToDoItem, Swift.Error&gt;) -&gt; ()) -&gt; ()"
                   moduleName = "ToDoList"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/abrorbek/Desktop/IOS/ToDoList-Yandex-School-Shanazarov/ToDoList/ToDoList/Services/NetworkingService.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "238"
-                  endingLineNumber = "238"
-                  offsetFromSymbolStart = "676">
+                  startingLineNumber = "233"
+                  endingLineNumber = "233"
+                  offsetFromSymbolStart = "1840">
                </Location>
                <Location
-                  uuid = "70C88A32-BAB6-4E50-A7E3-3ABDF6D567C6 - 9e3668174ba99ffd"
+                  uuid = "EAB2DD17-F63C-4101-A964-5842C7AA2B5C - 6d742492d00e678"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "closure #2 @Sendable (Swift.Optional&lt;Foundation.Data&gt;, Swift.Optional&lt;__C.NSURLResponse&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in closure #1 () -&gt; () in ToDoList.DefaultNetworkingService.addToDoItem(item: ToDoList.ToDoItem, completion: (Swift.Result&lt;ToDoList.ToDoItem, Swift.Error&gt;) -&gt; ()) -&gt; ()"
+                  symbolName = "closure #1 () -&gt; () in ToDoList.DefaultNetworkingService.addToDoItem(item: ToDoList.ToDoItem, completion: (Swift.Result&lt;ToDoList.ToDoItem, Swift.Error&gt;) -&gt; ()) -&gt; ()"
                   moduleName = "ToDoList"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/abrorbek/Desktop/IOS/ToDoList-Yandex-School-Shanazarov/ToDoList/ToDoList/Services/NetworkingService.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "238"
-                  endingLineNumber = "238"
-                  offsetFromSymbolStart = "1248">
+                  startingLineNumber = "233"
+                  endingLineNumber = "233"
+                  offsetFromSymbolStart = "1836">
                </Location>
             </Locations>
          </BreakpointContent>

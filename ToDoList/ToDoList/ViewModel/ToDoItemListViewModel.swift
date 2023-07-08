@@ -28,6 +28,10 @@ final class ToDoItemListViewModel {
     }
     
     func loadView() {
+//        try? fileCache.load(from: "directory")
+    }
+    
+    func viewDidLoad() {
         networkingService.getToDoItemList { [weak self] result in
             guard let strongSelf = self else {
                 return
@@ -35,29 +39,26 @@ final class ToDoItemListViewModel {
             switch result {
             case .success(let items):
                 strongSelf.items = items
+                strongSelf.updateItems()
+                strongSelf.reloadTableView?()
             case .failure:
                 print("Something went wrong")
             }
         }
-//        try? fileCache.load(from: "directory")
-    }
-    
-    func viewDidLoad() {
-//        updateItems()
     }
     
     func viewWillDisappear() {
-        networkingService.updateToDoItemList(with: self.items) { [weak self] result in
-            guard let strongSelf = self else {
-                return
-            }
-            switch result {
-            case .success(let items):
-                strongSelf.items = items
-            case .failure:
-                print("Something went wrong")
-            }
-        }
+//        networkingService.updateToDoItemList(with: self.items) { [weak self] result in
+//            guard let strongSelf = self else {
+//                return
+//            }
+//            switch result {
+//            case .success(let items):
+//                strongSelf.items = items
+//            case .failure:
+//                print("Something went wrong")
+//            }
+//        }
 //        try? fileCache.save(to: "directory")
     }
     
@@ -66,7 +67,14 @@ final class ToDoItemListViewModel {
     }
     
     func deleteItem(at indexPath: IndexPath) {
-        networkingService.deleteToDoItem(id: filteredItems[indexPath.row].id) { [weak self] result in
+        let item = filteredItems[indexPath.row]
+        filteredItems.remove(at: indexPath.row)
+        reloadTableView?()
+        items.removeAll { itemD in
+            itemD.id == item.id
+        }
+        
+        networkingService.deleteToDoItem(id: item.id) { [weak self] result in
             guard let strongSelf = self else {
                 return
             }
@@ -80,9 +88,6 @@ final class ToDoItemListViewModel {
             }
         }
 //        fileCache.delete(id: filteredItems[indexPath.row].id)
-        filteredItems.remove(at: indexPath.row)
-        updateItems()
-        reloadTableView?()
     }
     
     func markAsDone(at indexPath: IndexPath) {
@@ -99,6 +104,14 @@ final class ToDoItemListViewModel {
                                     createdAt: item.createdAt,
                                     editedAt: item.editedAt,
                                     color: item.color)
+        
+        filteredItems[indexPath.row] = updatedItem
+        if let index = items.firstIndex(where: { $0.id == item.id }) {
+            items[index] = updatedItem
+        }
+        filterItems()
+        reloadTableView?()
+        
         networkingService.editToDoItem(item: updatedItem) { [weak self] result in
             guard let strongSelf = self else {
                 return
@@ -113,11 +126,6 @@ final class ToDoItemListViewModel {
             }
         }
 //        fileCache.add(todoItem: updatedItem)
-        filteredItems[indexPath.row] = updatedItem
-        filterItems()
-        updateItems()
-        
-        reloadTableView?()
     }
     
     func updateCell(at indexPath: IndexPath, completion:  @escaping ((ToDoItem) -> Void)) {
@@ -134,17 +142,17 @@ final class ToDoItemListViewModel {
     }
     
     func updateItems(){
-        networkingService.getToDoItemList { [weak self] result in
-            guard let strongSelf = self else {
-                return
-            }
-            switch result {
-            case .success(let items):
-                strongSelf.items = items
-            case .failure:
-                print("Something went wrong")
-            }
-        }
+//        networkingService.getToDoItemList { [weak self] result in
+//            guard let strongSelf = self else {
+//                return
+//            }
+//            switch result {
+//            case .success(let items):
+//                strongSelf.items = items
+//            case .failure:
+//                print("Something went wrong")
+//            }
+//        }
         
         
 //        items = fileCache.items.map({ task in
@@ -159,7 +167,9 @@ final class ToDoItemListViewModel {
         if willShowAll {
             filteredItems = items
         } else {
-            filteredItems = items.filter({ $0.isCompleted == false })
+            filteredItems = items.filter({ $0.isCompleted == false }).sorted(by: { firstItem, secondItem in
+                firstItem.createdAt > secondItem.createdAt
+            })
         }
     }
 }
@@ -173,7 +183,6 @@ extension ToDoItemListViewModel: ItemDetailsDelegate {
 }
 
 extension ToDoItemListViewModel: TableViewHeaderDelegate {
-    
     func getNumberOfItmes() -> Int {
         let count = items.filter({ $0.isCompleted == true }).count
         return count
