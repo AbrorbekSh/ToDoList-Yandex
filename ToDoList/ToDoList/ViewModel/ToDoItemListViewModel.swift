@@ -181,9 +181,19 @@ final class ToDoItemListViewModel {
 
 extension ToDoItemListViewModel: ItemDetailsDelegate {
     func changesAppeared() {
-        updateItems()
+//        updateItems()
         filterItems()
-        reloadTableView?()
+        Task {
+            do {
+                items = try await networkingService.getToDoItemList()
+                updateItems()
+                DispatchQueue.main.async {
+                    self.reloadTableView?()
+                }
+            } catch {
+                print("Error: getToDoItemList")
+            }
+        }
     }
 }
 

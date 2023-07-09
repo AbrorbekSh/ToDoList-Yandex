@@ -175,6 +175,7 @@ extension ToDoItemListViewController: UITableViewDataSource {
         return cell
     }
     
+    
 }
 
 //MARK: - UITableViewDelegate
@@ -263,6 +264,8 @@ extension ToDoItemListViewController:  UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == viewModel.getNumberofItems() {
             viewModel.addNewItemPressed()
+        } else {
+            viewModel.openDetailsView(at: indexPath)
         }
     }
 

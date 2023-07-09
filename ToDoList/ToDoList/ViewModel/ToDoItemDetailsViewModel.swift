@@ -129,10 +129,7 @@ final class ToDoItemDetailsViewModel {
         Task {
             do {
                 _ = try await networkingService.addToDoItem(item: item)
-                DispatchQueue.main.async {
-                    self.delegate?.changesAppeared()
-                }
-//                delegate?.changesAppeared()
+                self.delegate?.changesAppeared()
             } catch {
                 print("Error: editToDoItem")
             }

@@ -24,7 +24,7 @@ protocol NetworkingService: AnyObject {
 final class DefaultNetworkService: NetworkingService {
     
     private let baseURL: String = "https://beta.mrdekk.ru/todobackend"
-    private let token: String = "throatless"
+    private let token: String = "threats"
     private(set) var revision: Int = 0
     
     enum NetworkingError: Error {
