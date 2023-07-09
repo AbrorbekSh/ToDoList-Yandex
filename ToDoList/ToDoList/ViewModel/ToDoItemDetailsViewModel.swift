@@ -14,7 +14,7 @@ protocol ItemDetailsDelegate: AnyObject {
 final class ToDoItemDetailsViewModel {
     
     private let fileCashe: FileCache
-    private let netwrokingService: NetworkingService
+    private let networkingService: NetworkingService
     weak var delegate: (ItemDetailsDelegate & ToDoItemListViewModel)?
     private let item: ToDoItem?
     var uploadData: ((ToDoItem) -> Void)?
@@ -34,7 +34,7 @@ final class ToDoItemDetailsViewModel {
     init(fileCashe: FileCache, item: ToDoItem? = nil, networkingService: NetworkingService) {
         self.fileCashe = fileCashe
         self.item = item
-        self.netwrokingService = networkingService
+        self.networkingService = networkingService
     }
     
     func viewWillAppear(){
@@ -125,16 +125,16 @@ final class ToDoItemDetailsViewModel {
                 color: hexColor
             )
         }
-        
-        netwrokingService.addToDoItem(item: newItem) { result in
-//            guard let strongSelf = self else {
-//                return
-//            }
-            switch result {
-            case .success(let _):
-                self.delegate?.changesAppeared()
-            case .failure:
-                print("Something went wrong")
+        let item = newItem
+        Task {
+            do {
+                _ = try await networkingService.addToDoItem(item: item)
+                DispatchQueue.main.async {
+                    self.delegate?.changesAppeared()
+                }
+//                delegate?.changesAppeared()
+            } catch {
+                print("Error: editToDoItem")
             }
         }
 //        fileCashe.add(todoItem: newItem)

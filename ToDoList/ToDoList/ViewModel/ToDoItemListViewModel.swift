@@ -17,7 +17,7 @@ final class ToDoItemListViewModel {
     var isFull: Bool = true
     
     weak var coordinator: ToDoItemListCoordinator?
-    
+
     var reloadTableView: (() -> Void)?
     
     let title = "Мои дела"
@@ -32,33 +32,40 @@ final class ToDoItemListViewModel {
     }
     
     func viewDidLoad() {
-        networkingService.getToDoItemList { [weak self] result in
-            guard let strongSelf = self else {
-                return
-            }
-            switch result {
-            case .success(let items):
-                strongSelf.items = items
-                strongSelf.updateItems()
-                strongSelf.reloadTableView?()
-            case .failure:
-                print("Something went wrong")
+        Task {
+            do {
+                items = try await networkingService.getToDoItemList()
+                updateItems()
+                DispatchQueue.main.async {
+                    self.reloadTableView?()
+                }
+            } catch {
+                print("Error: getToDoItemList")
             }
         }
-    }
-    
-    func viewWillDisappear() {
-//        networkingService.updateToDoItemList(with: self.items) { [weak self] result in
+//        networkingService.getToDoItemList { [weak self] result in
 //            guard let strongSelf = self else {
 //                return
 //            }
 //            switch result {
 //            case .success(let items):
 //                strongSelf.items = items
+//                strongSelf.updateItems()
+//                strongSelf.reloadTableView?()
 //            case .failure:
 //                print("Something went wrong")
 //            }
 //        }
+    }
+    
+    func viewWillDisappear() {
+        Task {
+            do {
+                items = try await networkingService.updateToDoItemList(with: items)
+            } catch {
+                print("Error: updateToDoItemList")
+            }
+        }
 //        try? fileCache.save(to: "directory")
     }
     
@@ -69,24 +76,23 @@ final class ToDoItemListViewModel {
     func deleteItem(at indexPath: IndexPath) {
         let item = filteredItems[indexPath.row]
         filteredItems.remove(at: indexPath.row)
-        reloadTableView?()
+//        reloadTableView?()
         items.removeAll { itemD in
             itemD.id == item.id
         }
         
-        networkingService.deleteToDoItem(id: item.id) { [weak self] result in
-            guard let strongSelf = self else {
-                return
-            }
-            switch result {
-            case .success(let item):
-                strongSelf.items.removeAll { itemD in
-                    itemD.id == item.id
+        Task {
+            do {
+                let deletedItem = try await networkingService.deleteToDoItem(id: item.id)
+                print(deletedItem)
+                DispatchQueue.main.async {
+                    self.reloadTableView?()
                 }
-            case .failure:
-                print("Something went wrong")
+            } catch {
+                print("Error: deleteToDoItem")
             }
         }
+
 //        fileCache.delete(id: filteredItems[indexPath.row].id)
     }
     
@@ -110,19 +116,18 @@ final class ToDoItemListViewModel {
             items[index] = updatedItem
         }
         filterItems()
-        reloadTableView?()
+//        reloadTableView?()
         
-        networkingService.editToDoItem(item: updatedItem) { [weak self] result in
-            guard let strongSelf = self else {
-                return
-            }
-            switch result {
-            case .success(let item):
-                if let row = strongSelf.items.firstIndex(where: {$0.id == item.id}) {
-                    strongSelf.items[row] = updatedItem
+        
+        
+        Task {
+            do {
+                _ = try await networkingService.editToDoItem(item: updatedItem)
+                DispatchQueue.main.async {
+                    self.reloadTableView?()
                 }
-            case .failure:
-                print("Something went wrong")
+            } catch {
+                print("Error: editToDoItem")
             }
         }
 //        fileCache.add(todoItem: updatedItem)
@@ -192,6 +197,6 @@ extension ToDoItemListViewModel: TableViewHeaderDelegate {
         willShowAll = !willShowAll
         isFull = willShowAll
         filterItems()
-        reloadTableView?()
+//        reloadTableView?()
     }
 }
