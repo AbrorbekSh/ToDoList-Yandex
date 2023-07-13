@@ -1,0 +1,6 @@
+[submodule "SQLite.swift"]
+	path = SQLite.swift
+	url = https://github.com/stephencelis/SQLite.swift.git
+[submodule "ToDoList/SQLite.swift"]
+	path = ToDoList/SQLite.swift
+	url = https://github.com/stephencelis/SQLite.swift.git

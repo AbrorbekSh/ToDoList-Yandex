@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SQLite
 
 enum FileCacheError: Error {
     case failureDataToJson
@@ -17,28 +18,124 @@ enum FileCacheError: Error {
     case notFound
 }
 
-final class FileCache {
-    private(set) var items = [String:ToDoItem]()
+public final class FileCache {
+    private(set) var itemsJSON = [String:ToDoItem]()
+    private(set) var items = [ToDoItem]()
     private var fileManager = FileManager.default
+    private var database: Connection?
     
-    func add(todoItem: ToDoItem) {
-        if items[todoItem.id] != nil {
-            items[todoItem.id] = todoItem
-        } else {
-            items[todoItem.id] = todoItem
+    // Define table structure
+    let table = Table("ToDoItem")
+    
+    let id = Expression<String>("id")
+    let text = Expression<String>("text")
+    let priority = Expression<String>("priority")
+    let deadline = Expression<Date?>("deadline")
+    let isCompleted = Expression<Bool>("isCompleted")
+    let createdAt = Expression<Date>("createdAt")
+    let editedAt = Expression<Date?>("editedAt")
+    let color = Expression<String?>("color")
+    
+    init() {
+        do {
+            let documentDirectory = try fileManager.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+            
+            let fileUrl = documentDirectory.appending(path: "toDoList").appendingPathExtension("sqlite3")
+            
+            database = try Connection(fileUrl.path())
+        } catch {
+            print(error)
         }
     }
     
-    func delete(id: String) {
-        items.removeValue(forKey: id)
-    }
+    func insert(item: ToDoItem) {
+        guard let database = database else {
+            return
+        }
+        let itemLine = table.insert(
+                    id <- item.id,
+                    text <- item.text,
+                    priority <- item.priority.rawValue,
+                    deadline <- item.deadline,
+                    isCompleted <- item.isCompleted,
+                    createdAt <- item.createdAt,
+                    editedAt <- item.createdAt,
+                    color <- item.color
+        )
         
+        do {
+            try database.run(itemLine)
+        } catch {
+            print("Insertion error: \(error)")
+        }
+        items.append(item)
+    }
+    
+    func load() -> [ToDoItem] {
+        guard let database = database else {
+            return []
+        }
+        do {
+            let query = table.select([id, text, priority, deadline, isCompleted, createdAt, editedAt, color])
+            for row in try database.prepare(query) {
+                let item = ToDoItem(
+                    id: row[id],
+                    text: row[text],
+                    priority: Priority(rawValue: row[priority]) ?? .basic,
+                    deadline: row[deadline],
+                    createdAt: row[createdAt],
+                    editedAt: row[editedAt],
+                    color: row[color] ?? "#00000"
+                )
+                items.append(item)
+            }
+        } catch {
+            print("Query error: \(error)")
+        }
+        
+        return items
+    }
+    
+    func delete(idx: String) {
+        guard let database = database else {
+            return
+        }
+        
+        let rowToDelete = table.filter(id == idx)
+        let delete = rowToDelete.delete()
+        do {
+            let count = try database.run(delete)
+        } catch {
+            print("Deletion error: \(error)")
+        }
+        
+        let index = items.firstIndex {
+            $0.id == idx
+        }
+        if let index = index {
+            items.remove(at: index)
+        }
+    }
 }
 
 //MARK: - FileCache for JSON
+//Оставил для себя
 
 extension FileCache {
-    func save(to dir: String) throws {
+    
+    func deleteJSON(id: String) {
+        itemsJSON.removeValue(forKey: id)
+    }
+    
+    func addJSON(todoItem: ToDoItem) {
+        if itemsJSON[todoItem.id] != nil {
+            itemsJSON[todoItem.id] = todoItem
+        } else {
+            itemsJSON[todoItem.id] = todoItem
+        }
+    }
+    
+    func saveJSON(to dir: String) throws {
         let dirUrl = try getDirUrl(by: dir)
         try clearCache(by: dir)
         
@@ -46,28 +143,28 @@ extension FileCache {
             try fileManager.createDirectory(at: dirUrl, withIntermediateDirectories: true, attributes: nil)
         }
         
-        for todoItem in items.values {
+        for todoItem in itemsJSON.values {
             try addToFile(todoItem: todoItem, to: dirUrl)
         }
     }
     
-    func load(from dir: String) throws {
+    func loadJSON(from dir: String) throws {
         let dirUrl = try getDirUrl(by: dir)
-        
+
         guard let todoItemsId = try? getTodoItemsId(from: dirUrl) else {
             return
         }
-        
-        items.removeAll()
-        
+
+        itemsJSON.removeAll()
+
         for id in todoItemsId {
             let todoItem = try getTodoItem(from: dirUrl, by: id)
-            items[todoItem.id] = todoItem
+            itemsJSON[todoItem.id] = todoItem
         }
     }
     
     func contains(todoItem: ToDoItem) -> Bool {
-        items.keys.contains(todoItem.id)
+        itemsJSON.keys.contains(todoItem.id)
     }
     
     func clearCache(by name: String) throws {
@@ -141,7 +238,7 @@ extension FileCache {
             }
         }
         
-        let data = items.map { _, item in
+        let data = itemsJSON.map { _, item in
             item.csv
         }.reduce(into: ToDoItem.titles.joined(separator: ",")) {
             $0 += "\n" + $1
@@ -156,7 +253,7 @@ extension FileCache {
     
     func loadCSV(from directory: String) throws {
         
-        items.removeAll()
+        itemsJSON.removeAll()
         
         let urls = fileManager.urls(
             for: .cachesDirectory,
@@ -177,7 +274,7 @@ extension FileCache {
             guard let task = ToDoItem.parse(csv: row) else {
                 continue
             }
-            items[task.id] = task
+            itemsJSON[task.id] = task
         }
     }
 }

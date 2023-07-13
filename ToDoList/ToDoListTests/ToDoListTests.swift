@@ -10,6 +10,27 @@ import XCTest
 
 final class ToDoListTests: XCTestCase {
     
+    //MARK: - Test sqlite
+    
+    let fileCache = FileCache()
+    
+    func testSQLite() {
+        let item = makeFullToDoItem()
+        fileCache.insert(item: item)
+        
+        let testItem = fileCache.load().first
+
+        XCTAssertEqual(testItem, item)
+        
+        var size = fileCache.load().count
+        XCTAssertEqual(size, 1)
+
+        fileCache.delete(idx: item.id)
+        
+        size = fileCache.load().count
+        XCTAssertEqual(size, 0)
+    }
+    
     //MARK: - Test struct
     
     func testDeadline() {
@@ -89,7 +110,6 @@ final class ToDoListTests: XCTestCase {
     
     private func makeFullToDoItem() -> ToDoItem {
         let item = ToDoItem(
-                            id: "123456789",
                             text: "testing",
                             priority: .low,
                             deadline: Date.now,
