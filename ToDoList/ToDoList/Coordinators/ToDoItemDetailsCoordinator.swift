@@ -12,20 +12,20 @@ final class ToDoItemDetailsCoordinator: Coordinator {
     private(set) var childCoordinators: [Coordinator] = []
     
     private let navigationController: UINavigationController
-    private let fileCashe: FileCache
+    private let fileCacheService: FileCacheService
     private let networkingService: NetworkingService
     weak var parentCoordinator: ToDoItemListCoordinator?
     private let item: ToDoItem?
     
-    init(navigationController: UINavigationController, fileCashe: FileCache, item: ToDoItem? = nil, networkingService: NetworkingService){
+    init(navigationController: UINavigationController, fileCacheService: FileCacheService, item: ToDoItem? = nil, networkingService: NetworkingService){
         self.navigationController = navigationController
-        self.fileCashe = fileCashe
+        self.fileCacheService = fileCacheService
         self.item = item
         self.networkingService = networkingService
     }
     
     func start() {
-        let toDoItemDetailsViewModel = ToDoItemDetailsViewModel(fileCashe: fileCashe, item: item, networkingService: networkingService)
+        let toDoItemDetailsViewModel = ToDoItemDetailsViewModel(fileCacheService: fileCacheService, item: item, networkingService: networkingService)
         toDoItemDetailsViewModel.delegate = parentCoordinator?.toDoItemListViewModel
         let toDoItemDetailsViewController = ToDoItemDetailsViewController(viewModel: toDoItemDetailsViewModel)
         toDoItemDetailsViewModel.coordinator = self

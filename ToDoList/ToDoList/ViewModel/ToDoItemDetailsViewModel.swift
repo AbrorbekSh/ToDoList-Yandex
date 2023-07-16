@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import CoreData
 
 protocol ItemDetailsDelegate: AnyObject {
     func changesAppeared()
@@ -13,26 +14,28 @@ protocol ItemDetailsDelegate: AnyObject {
 
 final class ToDoItemDetailsViewModel {
     
-    private let fileCashe: FileCache
+    private let fileCacheService: FileCacheService
     private let networkingService: NetworkingService
-    weak var delegate: (ItemDetailsDelegate & ToDoItemListViewModel)?
-    private let item: ToDoItem?
-    var uploadData: ((ToDoItem) -> Void)?
+    
     weak var coordinator: ToDoItemDetailsCoordinator?
+    weak var delegate: (ItemDetailsDelegate & ToDoItemListViewModel)?
+    
+    let title = "Дело"
+    
+    var uploadData: ((ToDoItem) -> Void)?
+    
+    private let item: ToDoItem?
     
     private var id: String?
     private var text: String?
     private var priority: Priority = .basic
     private var deadline: Date? = nil
     private var hexColor: String = "#000000"
-    
     private var isCompleted: Bool = false
     private var createdAt: Date = Date()
     
-    let title = "Дело"
-    
-    init(fileCashe: FileCache, item: ToDoItem? = nil, networkingService: NetworkingService) {
-        self.fileCashe = fileCashe
+    init(fileCacheService: FileCacheService, item: ToDoItem? = nil, networkingService: NetworkingService) {
+        self.fileCacheService = fileCacheService
         self.item = item
         self.networkingService = networkingService
     }
@@ -79,10 +82,10 @@ final class ToDoItemDetailsViewModel {
     }
 
     func deleteButtonPressed() {
-        guard let id = item?.id else {
+        guard let item = item else {
             return
         }
-        fileCashe.delete(id: id)
+        fileCacheService.delete(item: item)
         delegate?.changesAppeared()
         coordinator?.finish()
     }
@@ -110,6 +113,8 @@ final class ToDoItemDetailsViewModel {
                 editedAt: Date(),
                 color: hexColor
             )
+            fileCacheService.update(item: newItem)
+            self.delegate?.changesAppeared()
         } else {
             guard
                 let text = self.text
@@ -124,17 +129,9 @@ final class ToDoItemDetailsViewModel {
                 editedAt: Date(),
                 color: hexColor
             )
+            fileCacheService.insert(item: newItem)
+            self.delegate?.changesAppeared()
         }
-        let item = newItem
-        Task {
-            do {
-                _ = try await networkingService.addToDoItem(item: item)
-                self.delegate?.changesAppeared()
-            } catch {
-                print("Error: editToDoItem")
-            }
-        }
-//        fileCashe.add(todoItem: newItem)
         coordinator?.finish()
     }
 }

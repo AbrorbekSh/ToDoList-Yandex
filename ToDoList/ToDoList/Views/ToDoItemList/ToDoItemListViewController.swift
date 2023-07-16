@@ -65,12 +65,6 @@ final class ToDoItemListViewController: UIViewController {
     
     //MARK: - LifeCycle
     
-    override func loadView() {
-        super.loadView()
-        
-        viewModel.loadView()
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -79,13 +73,6 @@ final class ToDoItemListViewController: UIViewController {
         setupView()
         setupLayout()
     }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        
-        viewModel.viewWillDisappear()
-    }
-    
     
     //MARK: - Setup
     
