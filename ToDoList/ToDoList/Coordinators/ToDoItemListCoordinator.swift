@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftUI
 
 final class ToDoItemListCoordinator: Coordinator {
     
@@ -19,13 +20,14 @@ final class ToDoItemListCoordinator: Coordinator {
     init(navigationController: UINavigationController, fileCacheService: FileCacheService, networkingService: NetworkingService){
         self.navigationController = navigationController
         self.fileCacheService = fileCacheService
-        self.toDoItemListViewModel = ToDoItemListViewModel(fileCacheService: fileCacheService, networkingService: networkingService)
+        self.toDoItemListViewModel = ToDoItemListViewModel(fileCacheService: fileCacheService)
         self.networkingService = networkingService
     }
     
     func start() {
         toDoItemListViewModel.coordinator = self
-        let toDoItemListViewController = ToDoItemListViewController(viewModel: toDoItemListViewModel)
+        let toDoItemListViewController = UIHostingController(
+                                            rootView: ItemsViewSwiftUI(viewModel: toDoItemListViewModel))
         navigationController.pushViewController(toDoItemListViewController, animated: false)
     }
     

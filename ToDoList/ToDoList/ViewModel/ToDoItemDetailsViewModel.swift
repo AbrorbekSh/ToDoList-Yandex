@@ -12,7 +12,7 @@ protocol ItemDetailsDelegate: AnyObject {
     func changesAppeared()
 }
 
-final class ToDoItemDetailsViewModel {
+final class ToDoItemDetailsViewModel: ObservableObject {
     
     private let fileCacheService: FileCacheService
     private let networkingService: NetworkingService
@@ -28,8 +28,8 @@ final class ToDoItemDetailsViewModel {
     
     private var id: String?
     private var text: String?
-    private var priority: Priority = .basic
-    private var deadline: Date? = nil
+    var priority: Priority = .basic
+    var deadline: Date? = nil
     private var hexColor: String = "#000000"
     private var isCompleted: Bool = false
     private var createdAt: Date = Date()
@@ -75,6 +75,17 @@ final class ToDoItemDetailsViewModel {
     
     func colorDidChange(color: String){
         self.hexColor = color
+    }
+    
+    func hasDeadline() -> Bool {
+        return deadline != nil
+    }
+    
+    func getText() -> String {
+        guard let text = text else {
+            return ""
+        }
+        return text
     }
     
     func getColor() -> String {
