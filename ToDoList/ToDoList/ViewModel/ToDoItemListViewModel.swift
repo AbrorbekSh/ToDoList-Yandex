@@ -8,48 +8,43 @@
 import Foundation
 import CoreData
 
-final class ToDoItemListViewModel {
-    private let fileCacheService: FileCacheService
-    private let networkingService: NetworkingService
+final class ToDoItemListViewModel: ObservableObject {
     
     weak var coordinator: ToDoItemListCoordinator?
     
-    let title = "Мои дела"
-    
-    var reloadTableView: (() -> Void)?
+    private let fileCacheService: FileCacheService
     
     private var items: [ToDoItem] = []
-    private var filteredItems: [ToDoItem] = []
-    private var willShowAll: Bool = true
     var isFull: Bool = true
+    let title = "Мои дела"
     
-    init(fileCacheService: FileCacheService, networkingService: NetworkingService) {
+    @Published var filteredItems: [ToDoItem] = []
+    
+    init(fileCacheService: FileCacheService) {
         self.fileCacheService = fileCacheService
-        self.networkingService = networkingService
     }
     
     func viewDidLoad() {
         items = fileCacheService.load()
-        filterItems()
-        reloadTableView?()
+        filteredItems = items
     }
     
-    func openDetailsView(at indexPath: IndexPath) {
-        coordinator?.startToDoItemDetails(with: filteredItems[indexPath.row])
+    func openDetailsView(with item: ToDoItem) {
+        coordinator?.startToDoItemDetails(with: item)
     }
     
-    func deleteItem(at indexPath: IndexPath) {
-        let item = filteredItems[indexPath.row]
-        filteredItems.remove(at: indexPath.row)
-        reloadTableView?()
-        items.removeAll { itemD in
-            itemD.id == item.id
+    func deleteItem(item: ToDoItem) {
+        if let index = filteredItems.firstIndex(where: { $0.id == item.id }) {
+            filteredItems.remove(at: index)
         }
-        fileCacheService.delete(item: item)
+        
+        if let index = items.firstIndex(where: { $0.id == item.id }) {
+            fileCacheService.delete(item: items[index])
+            items.remove(at: index)
+        }
     }
     
-    func markAsDone(at indexPath: IndexPath) {
-        let item = filteredItems[indexPath.row]
+    func markAsDone(item: ToDoItem) {
         guard !item.isCompleted else {
             return
         }
@@ -63,22 +58,14 @@ final class ToDoItemListViewModel {
                                     editedAt: item.editedAt,
                                     color: item.color)
         
-        filteredItems[indexPath.row] = updatedItem
+        if let index = filteredItems.firstIndex(where: { $0.id == item.id }) {
+            filteredItems[index] = updatedItem
+        }
         if let index = items.firstIndex(where: { $0.id == item.id }) {
             items[index] = updatedItem
         }
         filterItems()
-        reloadTableView?()
         fileCacheService.update(item: updatedItem)
-    }
-    
-    func updateCell(at indexPath: IndexPath, completion:  @escaping ((ToDoItem) -> Void)) {
-        let item = filteredItems[indexPath.row]
-        completion(item)
-    }
-    
-    func getNumberofItems() -> Int {
-        return filteredItems.count
     }
     
     func addNewItemPressed(){
@@ -86,12 +73,10 @@ final class ToDoItemListViewModel {
     }
     
     private func filterItems() {
-        if willShowAll {
-            filteredItems = items.sorted(by: { firstItem, secondItem in
-                firstItem.createdAt > secondItem.createdAt
-            })
+        if isFull {
+            filteredItems = items
         } else {
-            filteredItems = items.filter({ $0.isCompleted == false }).sorted(by: { firstItem, secondItem in
+            filteredItems = items.filter({ $0.isCompleted == true }).sorted(by: { firstItem, secondItem in
                 firstItem.createdAt > secondItem.createdAt
             })
         }
@@ -102,20 +87,17 @@ extension ToDoItemListViewModel: ItemDetailsDelegate {
     func changesAppeared() {
         items = fileCacheService.items
         filterItems()
-        reloadTableView?()
     }
 }
 
 extension ToDoItemListViewModel: TableViewHeaderDelegate {
-    func getNumberOfItmes() -> Int {
+    func getNumberOfItems() -> Int {
         let count = items.filter({ $0.isCompleted == true }).count
         return count
     }
     
     func showItemsByStatus() {
-        willShowAll = !willShowAll
-        isFull = willShowAll
+        isFull = !isFull
         filterItems()
-        reloadTableView?()
     }
 }
